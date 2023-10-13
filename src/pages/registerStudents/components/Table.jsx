@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import ModalAddStudent from "./ModalAddStudent";
+import ModalAddStudent from "./FormAddStudent/ModalAddStudent";
 
 const Table = ({ data, RenderComponent, contentPerPage }) => {
   // State Pagination
@@ -10,6 +10,7 @@ const Table = ({ data, RenderComponent, contentPerPage }) => {
   // State Modal
   const [show, setShow] = useState(false);
 
+  // Pagination
   function goToNextPage() {
     setCurrentPage((page) => page + 1);
   }

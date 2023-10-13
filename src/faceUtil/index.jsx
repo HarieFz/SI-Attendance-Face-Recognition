@@ -14,7 +14,7 @@ export async function loadModels() {
 }
 
 // Get Full Face Description
-export async function getFullFaceDescription(blob, inputSize) {
+export async function getFullFaceDescription(blob, inputSize = 512) {
   let scoreThreshold = 0.8;
   const OPTION = new faceapi.SsdMobilenetv1Options({
     inputSize,

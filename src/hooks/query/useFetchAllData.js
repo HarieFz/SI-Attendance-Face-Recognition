@@ -15,7 +15,7 @@ const useFetchAllData = (path) => {
       (querySnapshot) => {
         const data = [];
         querySnapshot.forEach((doc) => {
-          data.push(doc.data());
+          data.push({ id: doc.id, data: doc.data() });
         });
         setData(data);
         setIsLoading(false);

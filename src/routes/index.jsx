@@ -4,7 +4,7 @@ import Home from "../pages/home";
 import Login from "../pages/login/Login";
 import ProtectedUser from "./user/ProtectedUser";
 import PrivateUser from "./user/PrivateUser";
-import AttendanceRoom from "../pages/attendanceRoom/AttendanceRoom";
+import AttendanceRoom from "../pages/attendanceRoom";
 import RegisterStudents from "../pages/registerStudents";
 
 export default function SetupRouter() {
