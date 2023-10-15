@@ -37,7 +37,7 @@ export default function TopBar() {
               Students
             </Nav.Link>
             <NavDropdown title="More" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/add-school-year">
+              <NavDropdown.Item as={Link} to="/school-year">
                 Add School Year
               </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/register-students">

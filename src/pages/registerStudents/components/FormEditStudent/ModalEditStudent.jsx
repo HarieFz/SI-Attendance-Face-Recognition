@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { Button, Modal } from "react-bootstrap";
-import { db } from "../../../../config/firebase";
+import { db, storage } from "../../../../config/firebase";
 import { fileReader } from "../../../../utils/fileReader";
 import * as faceapi from "face-api.js";
 import Swal from "sweetalert2";
 import FormEditStudent from "./FormEditStudent";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export default function ModalEditStudent({ show, setShow, data }) {
   // Data from Firestore
@@ -97,18 +98,31 @@ export default function ModalEditStudent({ show, setShow, data }) {
     }
   }, [detections, previewPhoto]);
 
-  // Handle Submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  // Upload Photo to Storage
+  const handlePhoto = async () => {
+    if (!selectedPhoto) return;
+    const path = `photos/${selectedPhoto?.name}`;
+    const storageRef = ref(storage, path);
+    const uploadTask = uploadBytesResumable(storageRef, selectedPhoto);
+
+    await uploadTask;
+
+    let downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+    return downloadURL;
+  };
+
+  // Create Post
+  const createPost = async (photoURL) => {
     if (faceDescriptor) {
       try {
-        await addDoc(collection(db, "students"), {
+        await updateDoc(doc(db, "students", id), {
           nis: nis,
           name: name,
           classroom: classroom,
           no_phone: noPhone,
           address: address,
+          photo_URL: photoURL,
           faceDescriptor: faceDescriptor.toString(),
         });
         Swal.fire("Success!", "Added photo is successfully!", "success");
@@ -119,6 +133,34 @@ export default function ModalEditStudent({ show, setShow, data }) {
         console.log(err);
       }
     }
+  };
+
+  // Handle Submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const photoURL = await handlePhoto();
+    createPost(photoURL)
+      .then(() => {
+        Swal.fire("Success!", "Updated photo is successfully!", "success");
+        setIsLoading(false);
+        setSelectedPhoto();
+        setPreviewPhoto();
+        setNis("");
+        setName("");
+        setClassroom("");
+        setNoPhone(0);
+        setAddress("");
+        setFaceDescriptor([]);
+        setDetectionCount(0);
+        setIsRunningFaceDetector(false);
+        setShow(false);
+      })
+      .catch((err) => {
+        Swal.fire("Something Error!", "Something Error!", "error");
+        setIsLoading(false);
+        console.log(err);
+      });
   };
 
   // Clear State Modal on Hide

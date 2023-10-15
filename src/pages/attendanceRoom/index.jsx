@@ -2,13 +2,14 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import RecapAttend from "./RecapAttend";
 import FaceRecognition from "./FaceRecognition";
+import AddCourse from "./AddCourse";
 
 export default function AttendanceRoom() {
   // const [show, setShow] = useState(true);
 
   return (
     <>
-      <h4 className="mb-4">Attendance Room</h4>
+      {/* <h4 className="mb-4">Attendance Room</h4>
       <Row>
         <Col lg={7}>
           <RecapAttend />
@@ -18,7 +19,8 @@ export default function AttendanceRoom() {
             <FaceRecognition />
           </div>
         </Col>
-      </Row>
+      </Row> */}
+      <AddCourse />
     </>
   );
 }

@@ -6,7 +6,6 @@ export default function FormEditStudent({
   fileInput,
   photo,
   previewPhoto,
-  id,
   nis,
   name,
   classroom,

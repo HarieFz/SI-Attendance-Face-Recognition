@@ -103,23 +103,15 @@ export default function ModalAddStudent({ show, setShow }) {
   // Create Post
   const createPost = async (photoURL) => {
     if (faceDescriptor) {
-      try {
-        await addDoc(collection(db, "students"), {
-          nis: nis,
-          name: name,
-          classroom: classroom,
-          no_phone: noPhone,
-          address: address,
-          photo_URL: photoURL,
-          faceDescriptor: faceDescriptor.toString(),
-        });
-        Swal.fire("Success!", "Added photo is successfully!", "success");
-        setIsLoading(false);
-      } catch (err) {
-        Swal.fire("Something Error!", "Something Error!", "error");
-        setIsLoading(false);
-        console.log(err);
-      }
+      await addDoc(collection(db, "students"), {
+        nis: nis,
+        name: name,
+        classroom: classroom,
+        no_phone: noPhone,
+        address: address,
+        photo_URL: photoURL,
+        faceDescriptor: faceDescriptor.toString(),
+      });
     }
   };
 
@@ -172,7 +164,7 @@ export default function ModalAddStudent({ show, setShow }) {
       <Modal.Header closeButton>
         <Modal.Title>Add Student</Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ zIndex: "0" }}>
+      <Modal.Body>
         <FormAddStudent
           fileInput={fileInput}
           previewPhoto={previewPhoto}

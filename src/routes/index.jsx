@@ -6,6 +6,7 @@ import ProtectedUser from "./user/ProtectedUser";
 import PrivateUser from "./user/PrivateUser";
 import AttendanceRoom from "../pages/attendanceRoom";
 import RegisterStudents from "../pages/registerStudents";
+import SchoolYear from "../pages/schoolYear";
 
 export default function SetupRouter() {
   return (
@@ -19,6 +20,7 @@ export default function SetupRouter() {
           <Route index element={<Home />} />
           <Route path="register-students" element={<RegisterStudents />} />
           <Route path="attendance" element={<AttendanceRoom />} />
+          <Route path="school-year" element={<SchoolYear />} />
         </Route>
       </Routes>
     </BrowserRouter>

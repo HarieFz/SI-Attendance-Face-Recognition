@@ -1,15 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable array-callback-return */
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import * as faceapi from "face-api.js";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
 import { createMatcher } from "../../faceUtil";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../config/firebase";
-import moment from "moment/moment";
 import Webcam from "react-webcam";
-import { drawRectAndLabelFace } from "../../utils/drawRectAndLabelFace";
 
 export default function FaceRecognition() {
   // State Common
@@ -67,7 +61,7 @@ export default function FaceRecognition() {
     if (data) {
       matcher();
     }
-  }, [data]);
+  }, [data, isLoading]);
 
   // Handle when Video on Play
   const handleVideoOnPlay = () => {
@@ -103,7 +97,7 @@ export default function FaceRecognition() {
           results.forEach(async (result, i) => {
             const box = resizedDetections[i].detection.box;
             const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() });
-            drawBox.draw(canvasRef.current);
+            canvasRef.current && drawBox.draw(canvasRef.current);
           });
 
         // if (results) {
