@@ -4,7 +4,7 @@ import ModalAddStudent from "./FormAddStudent/ModalAddStudent";
 
 const Table = ({ data, RenderComponent, contentPerPage }) => {
   // State Pagination
-  const [totalPageCount] = useState(Math.ceil(data.length / contentPerPage));
+  const [totalPageCount] = useState(Math.ceil(data?.length / contentPerPage));
   const [currentPage, setCurrentPage] = useState(1);
 
   // State Modal
@@ -20,7 +20,7 @@ const Table = ({ data, RenderComponent, contentPerPage }) => {
   const getPaginatedData = () => {
     const startIndex = currentPage * contentPerPage - contentPerPage;
     const endIndex = startIndex + contentPerPage;
-    return data.slice(startIndex, endIndex);
+    return data?.slice(startIndex, endIndex);
   };
 
   return (
@@ -37,8 +37,8 @@ const Table = ({ data, RenderComponent, contentPerPage }) => {
       <hr style={{ height: "5px", border: "none", background: "#000000" }} />
 
       {/* Body */}
-      <div>
-        {getPaginatedData().map((dataItem, index) => (
+      <div className="px-4 mb-4">
+        {getPaginatedData()?.map((dataItem, index) => (
           <RenderComponent key={index} data={dataItem} />
         ))}
       </div>

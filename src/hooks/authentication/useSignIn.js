@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Swal from "sweetalert2";
 import { auth } from "../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useSignIn = (email, password, redirect, Auth) => {
@@ -11,7 +10,7 @@ const useSignIn = (email, password, redirect, Auth) => {
   const [isLoading, setIsLoading] = useState(false);
   const [payload, mutate] = useState(false);
 
-  const login = () => {
+  const login = useCallback(() => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         const user = userCredential.user;
@@ -36,14 +35,14 @@ const useSignIn = (email, password, redirect, Auth) => {
         }
         Swal.fire("Something Error!", "Please check again Email and Password", "error");
       });
-  };
+  }, [Auth, email, navigate, password, redirect]);
 
   useEffect(() => {
     if (payload) {
       setIsLoading(true);
       login();
     }
-  }, [payload, email, password, redirect, Auth]);
+  }, [login, payload]);
 
   return { mutate, isLoading };
 };

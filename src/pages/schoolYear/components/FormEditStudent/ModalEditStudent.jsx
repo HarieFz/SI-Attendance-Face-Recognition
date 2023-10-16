@@ -5,12 +5,9 @@ import { db } from "../../../../config/firebase";
 import FormEditStudent from "./FormEditStudent";
 import Swal from "sweetalert2";
 
-export default function ModalEditStudent({ show, setShow, data }) {
-  // Data from Firestore
-  const { id, data: item } = data;
-
+export default function ModalEditStudent({ showEdit, setShowEdit, data }) {
   // State Forms
-  const [schoolYear, setSchoolYear] = useState(item.school_year);
+  const [schoolYear, setSchoolYear] = useState(data.school_year);
   const [isLoading, setIsLoading] = useState(false);
 
   // handler
@@ -21,13 +18,13 @@ export default function ModalEditStudent({ show, setShow, data }) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await updateDoc(doc(db, "school_year", id), {
+      await updateDoc(doc(db, "school_year", data.id), {
         school_year: schoolYear,
       });
       Swal.fire("Success!", "Updated School Year is successfully!", "success");
       setIsLoading(false);
-      setShow(false);
-      setSchoolYear("");
+      setShowEdit(false);
+      setSchoolYear(data.school_year);
     } catch (err) {
       Swal.fire("Something Error!", "Something Error!", "error");
       setIsLoading(false);
@@ -37,13 +34,13 @@ export default function ModalEditStudent({ show, setShow, data }) {
 
   // Clear State Modal on Hide
   const modalOnHide = () => {
-    setShow(false);
+    setShowEdit(false);
     setIsLoading(false);
-    setSchoolYear();
+    setSchoolYear(data.school_year);
   };
 
   return (
-    <Modal size="xl" show={show} onHide={() => modalOnHide()}>
+    <Modal size="xl" show={showEdit} onHide={() => modalOnHide()}>
       <Modal.Header closeButton>
         <Modal.Title>Update School Year</Modal.Title>
       </Modal.Header>

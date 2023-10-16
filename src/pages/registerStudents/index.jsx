@@ -9,14 +9,12 @@ export default function RegisterStudents() {
 
   return (
     <>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : data.length !== 0 ? (
+      {data.length !== 0 ? (
         <div className="mx-auto bg-body border rounded mb-5">
-          <Table data={data} RenderComponent={ListData} contentPerPage={10} />
+          <Table data={data} isLoading={isLoading} RenderComponent={ListData} contentPerPage={10} />
         </div>
       ) : (
-        <></>
+        ""
       )}
     </>
   );

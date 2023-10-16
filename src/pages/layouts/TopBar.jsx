@@ -30,7 +30,7 @@ export default function TopBar() {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/attendance">
+            <Nav.Link as={Link} to="/add-course">
               Attendance
             </Nav.Link>
             <Nav.Link as={Link} to="/register-students">

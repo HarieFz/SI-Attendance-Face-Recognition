@@ -6,11 +6,8 @@ import ModalEditStudent from "./FormEditStudent/ModalEditStudent";
 import Swal from "sweetalert2";
 
 export default function ListData({ data }) {
-  // Data
-  const { id, data: item } = data;
-
   // Modal
-  const [show, setShow] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   // Delete Data
   const deleteData = (id) => {
@@ -33,23 +30,21 @@ export default function ListData({ data }) {
   return (
     <div>
       {/* body */}
-      <div className="px-4">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <p className="m-0">{item.school_year}</p>
-          </div>
-          <div className="d-flex gap-3">
-            <Button className="btn-success" onClick={() => setShow(true)}>
-              Edit
-            </Button>
-            <Button className="btn-danger" onClick={() => deleteData(id)}>
-              Delete
-            </Button>
-          </div>
+      <div className="d-flex justify-content-between align-items-center">
+        <div>
+          <p className="m-0">{data?.school_year}</p>
         </div>
-        <hr />
+        <div className="d-flex gap-3">
+          <Button className="btn-success" onClick={() => setShowEdit(true)}>
+            Edit
+          </Button>
+          <Button className="btn-danger" onClick={() => deleteData(data.id)}>
+            Delete
+          </Button>
+        </div>
       </div>
-      <ModalEditStudent show={show} setShow={setShow} data={data} />
+      <hr />
+      <ModalEditStudent showEdit={showEdit} setShowEdit={setShowEdit} data={data} />
     </div>
   );
 }

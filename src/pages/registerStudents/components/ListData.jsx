@@ -7,8 +7,7 @@ import ModalEditStudent from "./FormEditStudent/ModalEditStudent";
 
 export default function ListData({ data }) {
   // Data
-  const { id, data: student } = data;
-  const { nis, name, classroom, no_phone, address } = student;
+  const { id, nis, name, classroom, no_phone, address } = data;
 
   // Modal
   const [show, setShow] = useState(false);
@@ -34,26 +33,24 @@ export default function ListData({ data }) {
   return (
     <div>
       {/* body */}
-      <div className="px-4">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <p className="m-0 fw-bold">{nis}</p>
-            <p className="m-0 fw-bold">{name}</p>
-            <p className="m-0 text-black-50">{classroom}</p>
-            <p className="m-0 text-black-50">{no_phone}</p>
-            <p className="m-0 text-black-50">{address}</p>
-          </div>
-          <div className="d-flex gap-3">
-            <Button className="btn-success" onClick={() => setShow(true)}>
-              Edit
-            </Button>
-            <Button className="btn-danger" onClick={() => deleteData(id)}>
-              Delete
-            </Button>
-          </div>
+      <div className="d-flex justify-content-between align-items-center">
+        <div>
+          <p className="m-0 fw-bold">{nis}</p>
+          <p className="m-0 fw-bold">{name}</p>
+          <p className="m-0 text-black-50">{classroom}</p>
+          <p className="m-0 text-black-50">{no_phone}</p>
+          <p className="m-0 text-black-50">{address}</p>
         </div>
-        <hr />
+        <div className="d-flex gap-3">
+          <Button className="btn-success" onClick={() => setShow(true)}>
+            Edit
+          </Button>
+          <Button className="btn-danger" onClick={() => deleteData(id)}>
+            Delete
+          </Button>
+        </div>
       </div>
+      <hr />
       <ModalEditStudent show={show} setShow={setShow} data={data} />
     </div>
   );

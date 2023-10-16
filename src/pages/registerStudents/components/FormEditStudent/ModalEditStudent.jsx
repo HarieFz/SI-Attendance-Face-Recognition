@@ -9,18 +9,15 @@ import FormEditStudent from "./FormEditStudent";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export default function ModalEditStudent({ show, setShow, data }) {
-  // Data from Firestore
-  const { id, data: student } = data;
-
   // State Forms
   const fileInput = useRef();
-  const [selectedPhoto, setSelectedPhoto] = useState(student.photo_URL);
+  const [selectedPhoto, setSelectedPhoto] = useState(data.photo_URL);
   const [previewPhoto, setPreviewPhoto] = useState();
-  const [nis, setNis] = useState(student.nis);
-  const [name, setName] = useState(student.name);
-  const [classroom, setClassroom] = useState(student.classroom);
-  const [noPhone, setNoPhone] = useState(student.no_phone);
-  const [address, setAddress] = useState(student.address);
+  const [nis, setNis] = useState(data.nis);
+  const [name, setName] = useState(data.name);
+  const [classroom, setClassroom] = useState(data.classroom);
+  const [noPhone, setNoPhone] = useState(data.no_phone);
+  const [address, setAddress] = useState(data.address);
 
   // State Detect Face
   const [faceDescriptor, setFaceDescriptor] = useState([]);
@@ -77,12 +74,15 @@ export default function ModalEditStudent({ show, setShow, data }) {
       scoreThreshold,
     });
     const useTinyModel = true;
-    const img = await faceapi.fetchImage(previewPhoto);
-    const descriptions = await faceapi
-      .detectAllFaces(img, OPTION)
-      .withFaceLandmarks(useTinyModel)
-      .withFaceDescriptors();
-    return descriptions;
+
+    if (previewPhoto) {
+      const img = await faceapi.fetchImage(previewPhoto);
+      const descriptions = await faceapi
+        .detectAllFaces(img, OPTION)
+        .withFaceLandmarks(useTinyModel)
+        .withFaceDescriptors();
+      return descriptions;
+    }
   }, [previewPhoto]);
 
   // Running Detect Face
@@ -90,7 +90,6 @@ export default function ModalEditStudent({ show, setShow, data }) {
     if (previewPhoto) {
       setIsRunningFaceDetector(true);
       detections().then((data) => {
-        console.log(data);
         setDetectionCount(data?.length);
         setFaceDescriptor(data[0]?.descriptor);
         setIsRunningFaceDetector(false);
@@ -116,7 +115,7 @@ export default function ModalEditStudent({ show, setShow, data }) {
   const createPost = async (photoURL) => {
     if (faceDescriptor) {
       try {
-        await updateDoc(doc(db, "students", id), {
+        await updateDoc(doc(db, "students", data.id), {
           nis: nis,
           name: name,
           classroom: classroom,
@@ -125,8 +124,19 @@ export default function ModalEditStudent({ show, setShow, data }) {
           photo_URL: photoURL,
           faceDescriptor: faceDescriptor.toString(),
         });
-        Swal.fire("Success!", "Added photo is successfully!", "success");
+        Swal.fire("Success!", "Updated photo is successfully!", "success");
         setIsLoading(false);
+        setSelectedPhoto(data.photo_URL);
+        setPreviewPhoto();
+        setNis(data.nis);
+        setName(data.name);
+        setClassroom(data.classroom);
+        setNoPhone(data.no_phone);
+        setAddress(data.address);
+        setFaceDescriptor([]);
+        setDetectionCount(0);
+        setIsRunningFaceDetector(false);
+        setShow(false);
       } catch (err) {
         Swal.fire("Something Error!", "Something Error!", "error");
         setIsLoading(false);
@@ -140,40 +150,20 @@ export default function ModalEditStudent({ show, setShow, data }) {
     e.preventDefault();
     setIsLoading(true);
     const photoURL = await handlePhoto();
-    createPost(photoURL)
-      .then(() => {
-        Swal.fire("Success!", "Updated photo is successfully!", "success");
-        setIsLoading(false);
-        setSelectedPhoto();
-        setPreviewPhoto();
-        setNis("");
-        setName("");
-        setClassroom("");
-        setNoPhone(0);
-        setAddress("");
-        setFaceDescriptor([]);
-        setDetectionCount(0);
-        setIsRunningFaceDetector(false);
-        setShow(false);
-      })
-      .catch((err) => {
-        Swal.fire("Something Error!", "Something Error!", "error");
-        setIsLoading(false);
-        console.log(err);
-      });
+    createPost(photoURL);
   };
 
   // Clear State Modal on Hide
   const modalOnHide = () => {
     setShow(false);
     setIsLoading(false);
-    setSelectedPhoto(student.photo_URL);
+    setSelectedPhoto(data.photo_URL);
     setPreviewPhoto();
-    setNis(student.nis);
-    setName(student.name);
-    setClassroom(student.classroom);
-    setNoPhone(student.no_phone);
-    setAddress(student.address);
+    setNis(data.nis);
+    setName(data.name);
+    setClassroom(data.classroom);
+    setNoPhone(data.no_phone);
+    setAddress(data.address);
     setFaceDescriptor([]);
     setDetectionCount(0);
     setIsRunningFaceDetector(false);
@@ -208,7 +198,7 @@ export default function ModalEditStudent({ show, setShow, data }) {
           fileInput={fileInput}
           photo={selectedPhoto}
           previewPhoto={previewPhoto}
-          id={id}
+          id={data.id}
           nis={nis}
           name={name}
           classroom={classroom}

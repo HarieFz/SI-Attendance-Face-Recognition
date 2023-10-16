@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import * as faceapi from "face-api.js";
-import useFetchAllData from "../../hooks/query/useFetchAllData";
 import { createMatcher } from "../../faceUtil";
 import Webcam from "react-webcam";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
-export default function FaceRecognition() {
+export default function FaceRecognition({ data, isLoading }) {
   // State Common
   const [modelsLoaded, setModelsLoaded] = useState(false);
   const [faceMatcher, setFaceMatcher] = useState([]);
@@ -18,9 +19,6 @@ export default function FaceRecognition() {
     facingMode: "user",
   };
   const canvasRef = useRef();
-
-  const facePhotos = useFetchAllData("/students");
-  const { data, isLoading } = facePhotos;
 
   // Load Models
   useEffect(() => {
@@ -91,7 +89,8 @@ export default function FaceRecognition() {
 
         const resizedDetections = detections && faceapi.resizeResults(detections, displaySize);
 
-        const results = resizedDetections && resizedDetections.map((d) => faceMatcher.findBestMatch(d.descriptor));
+        const results =
+          resizedDetections && resizedDetections.map((d) => faceMatcher && faceMatcher.findBestMatch(d.descriptor));
 
         results &&
           results.forEach(async (result, i) => {
@@ -100,28 +99,25 @@ export default function FaceRecognition() {
             canvasRef.current && drawBox.draw(canvasRef.current);
           });
 
-        // if (results) {
-        //   results.map(async (result) => {
-        //     if (result._label !== "unknown") {
-        //       try {
-        //         await addDoc(collection(db, "attendance"), {
-        //           school_year: "Tahun Ajaran 2023/2024",
-        //           course_name: "Pertemuan 1",
-        //           date: moment().format("LL"),
-        //           classroom: "IPA 2",
-        //           participants: [{ name: result._label }],
-        //           present: 1,
-        //           on_leave: 0,
-        //           absent: 0,
-        //         });
-        //         console.log("Success!", "Added attendance succesfully!", "success");
-        //       } catch (err) {
-        //         console.log("Something Error!", "Something Error!", "error");
-        //         console.log(err);
-        //       }
-        //     }
-        //   });
-        // }
+        if (results) {
+          results.map(async (result) => {
+            if (result._label !== "unknown") {
+              data?.map(async (item) => {
+                const participant = item?.participants?.find((item) => item.name === result._label);
+                await updateDoc(doc(db, "attendance", item.id), {
+                  participants: arrayRemove(participant),
+                }).then(async () => {
+                  const obj = { ...participant, attend: 1, absent: 0, permission: 0, sick: 0 };
+                  await updateDoc(doc(db, "attendance", item.id), {
+                    participants: arrayUnion(obj),
+                  }).catch((err) => {
+                    console.log(err);
+                  });
+                });
+              });
+            }
+          });
+        }
       }
     }, 700);
 

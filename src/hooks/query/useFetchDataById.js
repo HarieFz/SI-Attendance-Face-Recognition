@@ -1,14 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Swal from "sweetalert2";
 import { db } from "../../config/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const useFetchDataById = (path, id) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetch = () => {
+  const fetch = useCallback(() => {
     const unsub = onSnapshot(
       doc(db, path, id),
       (doc) => {
@@ -23,12 +22,12 @@ const useFetchDataById = (path, id) => {
     );
 
     return unsub;
-  };
+  }, [id, path]);
 
   useEffect(() => {
     setIsLoading(true);
     fetch();
-  }, [path, id]);
+  }, [fetch]);
 
   return { data, isLoading };
 };
