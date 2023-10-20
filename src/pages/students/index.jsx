@@ -3,7 +3,7 @@ import useFetchAllData from "../../hooks/query/useFetchAllData";
 import Table from "./components/Table";
 import ListData from "./components/ListData";
 
-export default function RegisterStudents() {
+export default function Students() {
   const students = useFetchAllData("/students");
   const { data, isLoading } = students;
 
