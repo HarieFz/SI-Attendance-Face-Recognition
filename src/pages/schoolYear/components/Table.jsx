@@ -28,7 +28,7 @@ const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
       {/* head */}
       <div className="d-flex justify-content-between px-4 pt-4">
         <h5>
-          List School Year | <small style={{ fontSize: 15 }}>total {data?.length}</small>
+          School Year | <small style={{ fontSize: 15 }}>total {data?.length}</small>
         </h5>
         <div>
           <Button onClick={() => setShow(true)}>Add Student</Button>

@@ -48,7 +48,7 @@ export default function RecapAttendances() {
     ?.map((item) => item?.participants?.map((e) => e))
     .flat(1);
 
-  // Fixed Data
+  // Reduce Data
   const res = () => {
     const group = {};
 
