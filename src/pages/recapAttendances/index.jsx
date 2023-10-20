@@ -100,7 +100,7 @@ export default function RecapAttendances() {
 
       {filterData?.length !== 0 ? (
         <div className="mx-auto bg-body border rounded mb-5">
-          <Table data={res()} RenderComponent={ListData} contentPerPage={10} />
+          <Table data={res()} RenderComponent={ListData} />
         </div>
       ) : (
         ""

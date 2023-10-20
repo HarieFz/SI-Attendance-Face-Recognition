@@ -50,13 +50,13 @@ export default function FaceRecognition({ data, isLoading }) {
   };
 
   useEffect(() => {
-    async function matcher() {
-      if (data && !isLoading) {
+    const matcher = async () => {
+      if (data.length !== 0) {
         const profileList = await createMatcher(data, 0.5);
         setFaceMatcher(profileList);
       }
-    }
-    if (data) {
+    };
+    if (data.length !== 0) {
       matcher();
     }
   }, [data, isLoading]);
@@ -64,7 +64,7 @@ export default function FaceRecognition({ data, isLoading }) {
   // Handle when Video on Play
   const handleVideoOnPlay = () => {
     const interval = setInterval(async () => {
-      if (canvasRef && canvasRef.current) {
+      if (canvasRef && canvasRef.current && faceMatcher.length !== 0) {
         canvasRef.current.innerHTML = faceapi.createCanvas(videoRef.current);
 
         const displaySize = {

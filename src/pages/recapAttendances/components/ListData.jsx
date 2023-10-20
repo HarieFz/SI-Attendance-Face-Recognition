@@ -32,8 +32,6 @@ export default function ListData({ data }) {
           ))}
         </tbody>
       </Table>
-
-      <hr className="mt-0" />
     </div>
   );
 }

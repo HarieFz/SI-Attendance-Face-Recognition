@@ -31,12 +31,20 @@ export default function AttendanceRoom() {
         </p>
       </div>
       <Row>
-        <Col lg={7}>{isLoading ? "Loading..." : <RecapAttend data={filterData} isLoading={isLoading} />}</Col>
-        <Col lg={5}>
-          <div>
-            <FaceRecognition data={filterData} isLoading={isLoading} />
-          </div>
-        </Col>
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <>
+            <Col lg={7}>
+              <RecapAttend data={filterData} isLoading={isLoading} />
+            </Col>
+            <Col lg={5}>
+              <div>
+                <FaceRecognition data={filterData} isLoading={isLoading} />
+              </div>
+            </Col>
+          </>
+        )}
       </Row>
     </>
   );
