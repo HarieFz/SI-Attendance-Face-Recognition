@@ -5,6 +5,7 @@ import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { BiLogOut } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import Logo from "../../assets/logo-sma.png";
 
 export default function TopBar() {
   const navigate = useNavigate();
@@ -21,8 +22,7 @@ export default function TopBar() {
     <Navbar expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          {/* <img src={Logo} alt="logo" /> */}
-          Attendance
+          <img src={Logo} alt="logo" width="50px" />
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="gap-5">

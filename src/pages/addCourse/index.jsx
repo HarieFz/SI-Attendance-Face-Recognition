@@ -96,53 +96,56 @@ export default function AddCourse() {
   };
 
   return (
-    <div className="bg-body rounded border border-2 p-5" style={{ borderStyle: "dashed !important" }}>
-      <Row>
-        <Col>
-          <Form.Group className="mb-4">
-            <Form.Label>School Year</Form.Label>
-            <Form.Select onChange={handleYear}>
-              <option>Select School Year</option>
-              {schoolYear?.map((item, id) => (
-                <option key={id} value={item?.school_year}>
-                  {item?.school_year}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-4">
-            <Form.Label>Date</Form.Label>
-            <Form.Control type="date" placeholder="Student Address" value={date} onChange={handleDate} />
-          </Form.Group>
-        </Col>
-      </Row>
+    <>
+      <h4 className="mb-4">Add Course</h4>
+      <div className="bg-body rounded border border-2 p-5" style={{ borderStyle: "dashed !important" }}>
+        <Row>
+          <Col>
+            <Form.Group className="mb-4">
+              <Form.Label>School Year</Form.Label>
+              <Form.Select onChange={handleYear}>
+                <option>Select School Year</option>
+                {schoolYear?.map((item, id) => (
+                  <option key={id} value={item?.school_year}>
+                    {item?.school_year}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-4">
+              <Form.Label>Date</Form.Label>
+              <Form.Control type="date" placeholder="Student Address" value={date} onChange={handleDate} />
+            </Form.Group>
+          </Col>
+        </Row>
 
-      <Row>
-        <Col>
-          <Form.Group className="mb-4">
-            <Form.Label>School Year</Form.Label>
-            <Form.Select onChange={handleClassroom}>
-              <option>Select Classroom</option>
-              {classrooms()?.map((item, id) => (
-                <option key={id} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col>
-          <></>
-        </Col>
-      </Row>
-      <Button
-        onClick={handleSubmit}
-        disabled={!year || !date || !classroom || participants().length === 0 || isLoading}
-      >
-        {isLoading ? "Loading..." : "Add Course"}
-      </Button>
-    </div>
+        <Row>
+          <Col>
+            <Form.Group className="mb-4">
+              <Form.Label>School Year</Form.Label>
+              <Form.Select onChange={handleClassroom}>
+                <option>Select Classroom</option>
+                {classrooms()?.map((item, id) => (
+                  <option key={id} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
+          <Col>
+            <></>
+          </Col>
+        </Row>
+        <Button
+          onClick={handleSubmit}
+          disabled={!year || !date || !classroom || participants().length === 0 || isLoading}
+        >
+          {isLoading ? "Loading..." : "Add Course"}
+        </Button>
+      </div>
+    </>
   );
 }

@@ -103,7 +103,10 @@ export default function RecapAttendances() {
           <Table data={res()} RenderComponent={ListData} />
         </div>
       ) : (
-        ""
+        <p>
+          No data can be displayed.{" "}
+          <span className="text-danger">Please select the filter above to display the data</span>
+        </p>
       )}
     </div>
   );
