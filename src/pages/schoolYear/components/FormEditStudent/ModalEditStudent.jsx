@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { Button, Modal } from "react-bootstrap";
 import { db } from "../../../../config/firebase";
@@ -7,8 +7,12 @@ import Swal from "sweetalert2";
 
 export default function ModalEditStudent({ showEdit, setShowEdit, data }) {
   // State Forms
-  const [schoolYear, setSchoolYear] = useState(data.school_year);
+  const [schoolYear, setSchoolYear] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setSchoolYear(data.school_year);
+  }, [data]);
 
   // handler
   const handleSchoolYear = (e) => setSchoolYear(e.target.value);
@@ -24,7 +28,6 @@ export default function ModalEditStudent({ showEdit, setShowEdit, data }) {
       Swal.fire("Success!", "Updated School Year is successfully!", "success");
       setIsLoading(false);
       setShowEdit(false);
-      setSchoolYear(data.school_year);
     } catch (err) {
       Swal.fire("Something Error!", "Something Error!", "error");
       setIsLoading(false);
@@ -36,7 +39,6 @@ export default function ModalEditStudent({ showEdit, setShowEdit, data }) {
   const modalOnHide = () => {
     setShowEdit(false);
     setIsLoading(false);
-    setSchoolYear(data.school_year);
   };
 
   return (

@@ -11,13 +11,22 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 export default function ModalEditStudent({ show, setShow, data }) {
   // State Forms
   const fileInput = useRef();
-  const [selectedPhoto, setSelectedPhoto] = useState(data.photo_URL);
-  const [previewPhoto, setPreviewPhoto] = useState();
-  const [nis, setNis] = useState(data.nis);
-  const [name, setName] = useState(data.name);
-  const [classroom, setClassroom] = useState(data.classroom);
-  const [noPhone, setNoPhone] = useState(data.no_phone);
-  const [address, setAddress] = useState(data.address);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [previewPhoto, setPreviewPhoto] = useState(null);
+  const [nis, setNis] = useState("");
+  const [name, setName] = useState("");
+  const [classroom, setClassroom] = useState("");
+  const [noPhone, setNoPhone] = useState(0);
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    setSelectedPhoto(data.photo_URL);
+    setNis(data.nis);
+    setName(data.name);
+    setClassroom(data.classroom);
+    setNoPhone(data.no_phone);
+    setAddress(data.address);
+  }, [data]);
 
   // State Detect Face
   const [faceDescriptor, setFaceDescriptor] = useState([]);
@@ -122,17 +131,10 @@ export default function ModalEditStudent({ show, setShow, data }) {
           no_phone: noPhone,
           address: address,
           photo_URL: photoURL,
-          faceDescriptor: faceDescriptor.toString(),
+          faceDescriptor: data?.faceDescriptor ? data?.faceDescriptor : faceDescriptor.toString(),
         });
         Swal.fire("Success!", "Updated photo is successfully!", "success");
         setIsLoading(false);
-        setSelectedPhoto(data.photo_URL);
-        setPreviewPhoto();
-        setNis(data.nis);
-        setName(data.name);
-        setClassroom(data.classroom);
-        setNoPhone(data.no_phone);
-        setAddress(data.address);
         setFaceDescriptor([]);
         setDetectionCount(0);
         setIsRunningFaceDetector(false);
@@ -157,13 +159,6 @@ export default function ModalEditStudent({ show, setShow, data }) {
   const modalOnHide = () => {
     setShow(false);
     setIsLoading(false);
-    setSelectedPhoto(data.photo_URL);
-    setPreviewPhoto();
-    setNis(data.nis);
-    setName(data.name);
-    setClassroom(data.classroom);
-    setNoPhone(data.no_phone);
-    setAddress(data.address);
     setFaceDescriptor([]);
     setDetectionCount(0);
     setIsRunningFaceDetector(false);

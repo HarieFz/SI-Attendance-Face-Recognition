@@ -8,6 +8,7 @@ import AttendanceRoom from "../pages/attendanceRoom";
 import SchoolYear from "../pages/schoolYear";
 import AddCourse from "../pages/addCourse";
 import Students from "../pages/students";
+import RecapAttendances from "../pages/recapAttendances";
 
 export default function SetupRouter() {
   return (
@@ -22,6 +23,7 @@ export default function SetupRouter() {
           <Route path="register-students" element={<Students />} />
           <Route path="add-course" element={<AddCourse />} />
           <Route path="attendance" element={<AttendanceRoom />} />
+          <Route path="recap-attendances" element={<RecapAttendances />} />
           <Route path="school-year" element={<SchoolYear />} />
         </Route>
       </Routes>

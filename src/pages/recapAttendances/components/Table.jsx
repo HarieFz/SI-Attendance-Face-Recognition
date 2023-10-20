@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import ModalAddStudent from "./FormAddStudent/ModalAddStudent";
 
 const Table = ({ data, RenderComponent, contentPerPage }) => {
   // State Pagination
   const [totalPageCount] = useState(Math.ceil(data?.length / contentPerPage));
   const [currentPage, setCurrentPage] = useState(1);
-
-  // State Modal
-  const [show, setShow] = useState(false);
 
   // Pagination
   function goToNextPage() {
@@ -28,11 +24,8 @@ const Table = ({ data, RenderComponent, contentPerPage }) => {
       {/* head */}
       <div className="d-flex justify-content-between px-4 pt-4">
         <h5>
-          List Students | <small style={{ fontSize: 15 }}>total {data?.length}</small>
+          List School Year | <small style={{ fontSize: 15 }}>total {data?.length}</small>
         </h5>
-        <div>
-          <Button onClick={() => setShow(true)}>Add Student</Button>
-        </div>
       </div>
       <hr style={{ height: "5px", marginBottom: "0", border: "none", background: "#000000" }} />
 
@@ -56,7 +49,6 @@ const Table = ({ data, RenderComponent, contentPerPage }) => {
           </Button>
         </div>
       </div>
-      <ModalAddStudent show={show} setShow={setShow} />
     </div>
   );
 };

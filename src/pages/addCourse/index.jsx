@@ -65,8 +65,6 @@ export default function AddCourse() {
     (item) => item.school_year === year && item.classroom === classroom && item.date === date
   );
 
-  console.log(filterData);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
