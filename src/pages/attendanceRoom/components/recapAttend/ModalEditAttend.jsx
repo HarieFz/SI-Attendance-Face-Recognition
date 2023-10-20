@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { db } from "../../config/firebase";
+import { db } from "../../../../config/firebase";
 
 export default function ModalEditAttend({ data, participant, showEdit, setShowEdit }) {
   // State Forms

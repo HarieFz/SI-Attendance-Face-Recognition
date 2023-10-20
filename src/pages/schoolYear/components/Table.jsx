@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import ModalAddStudent from "./FormAddStudent/ModalAddStudent";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
   // State Pagination
@@ -50,12 +51,12 @@ const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
           {currentPage} of {totalPageCount} pages
         </div>
         <div className="d-flex gap-3">
-          <Button className="btn-dark" onClick={gotToPreviousPage} disabled={currentPage === 1}>
-            Prev
-          </Button>
-          <Button className="btn-dark" onClick={goToNextPage} disabled={currentPage === totalPageCount}>
-            Next
-          </Button>
+          <button className="border-0 bg-white" onClick={gotToPreviousPage} disabled={currentPage === 1}>
+            <BsChevronLeft />
+          </button>
+          <button className="border-0 bg-white" onClick={goToNextPage} disabled={currentPage === totalPageCount}>
+            <BsChevronRight />
+          </button>
         </div>
       </div>
       <ModalAddStudent show={show} setShow={setShow} />

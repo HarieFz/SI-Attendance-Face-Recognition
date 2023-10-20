@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import * as faceapi from "face-api.js";
-import { createMatcher } from "../../faceUtil";
+import { createMatcher } from "../../../../faceUtil";
 import Webcam from "react-webcam";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
+import { db } from "../../../../config/firebase";
 
 export default function FaceRecognition({ data, isLoading }) {
   // State Common

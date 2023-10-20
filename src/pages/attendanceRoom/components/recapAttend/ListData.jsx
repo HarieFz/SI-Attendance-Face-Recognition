@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import ModalEditAttend from "./ModalEditAttend";
 
-export default function RecapAttend({ data }) {
+export default function ListData({ data }) {
   // State
   const [show, setShow] = useState(false);
   const [datas, setDatas] = useState([]);
   const [participant, setParticipant] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleShow = (item, e) => {
     setShow(true);
@@ -15,23 +14,9 @@ export default function RecapAttend({ data }) {
     setParticipant(e);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    if (data) {
-      data?.forEach((item) => {
-        item?.participants?.forEach((e) => {
-          if (e.absent === 1) {
-            console.log(`Sent message to ${e.name}`);
-          }
-        });
-      });
-    }
-  };
-
   return (
     <div>
-      <Table bordered hover>
+      <Table responsive bordered hover className="mb-0">
         <thead>
           <tr>
             <th>No</th>
@@ -61,17 +46,10 @@ export default function RecapAttend({ data }) {
               </tr>
             ))
           )}
-          <tr>
-            <td colSpan={6}>
-              <div className="d-flex justify-content-center py-2">
-                <Button className="w-50" onClick={handleSubmit} disabled={isLoading}>
-                  Save
-                </Button>
-              </div>
-            </td>
-          </tr>
         </tbody>
       </Table>
+
+      <hr className="mt-0" />
       <ModalEditAttend data={datas} participant={participant} showEdit={show} setShowEdit={setShow} />
     </div>
   );

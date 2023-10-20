@@ -1,9 +1,10 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import RecapAttend from "./RecapAttend";
-import FaceRecognition from "./FaceRecognition";
-import useFetchAllData from "../../hooks/query/useFetchAllData";
 import { useLocation } from "react-router-dom";
+import FaceRecognition from "./components/faceRecognition";
+import ListData from "./components/recapAttend/ListData";
+import RecapAttend from "./components/recapAttend";
+import useFetchAllData from "../../hooks/query/useFetchAllData";
 
 export default function AttendanceRoom() {
   const attendances = useFetchAllData("attendance");
@@ -36,7 +37,9 @@ export default function AttendanceRoom() {
         ) : (
           <>
             <Col lg={7}>
-              <RecapAttend data={filterData} isLoading={isLoading} />
+              <div className="mx-auto bg-body border rounded mb-5">
+                <RecapAttend data={filterData} isLoading={isLoading} RenderComponent={ListData} />
+              </div>
             </Col>
             <Col lg={5}>
               <div>
