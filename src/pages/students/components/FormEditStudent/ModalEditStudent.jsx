@@ -8,16 +8,19 @@ import Swal from "sweetalert2";
 import FormEditStudent from "./FormEditStudent";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-export default function ModalEditStudent({ show, setShow, data }) {
+export default function ModalEditStudent({ data }) {
   // State Forms
   const fileInput = useRef();
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [previewPhoto, setPreviewPhoto] = useState(null);
-  const [nis, setNis] = useState("");
-  const [name, setName] = useState("");
-  const [classroom, setClassroom] = useState("");
-  const [noPhone, setNoPhone] = useState(0);
-  const [address, setAddress] = useState("");
+  const [selectedPhoto, setSelectedPhoto] = useState(data.photo_URL);
+  const [previewPhoto, setPreviewPhoto] = useState();
+  const [nis, setNis] = useState(data.nis);
+  const [name, setName] = useState(data.name);
+  const [classroom, setClassroom] = useState(data.classroom);
+  const [noPhone, setNoPhone] = useState(data.no_phone);
+  const [address, setAddress] = useState(data.address);
+  const [show, setShow] = useState(false);
+
+  console.log(address);
 
   useEffect(() => {
     setSelectedPhoto(data.photo_URL);
@@ -45,6 +48,7 @@ export default function ModalEditStudent({ show, setShow, data }) {
   // Custome Input File Photo
   const handleClick = () => {
     fileInput.current.click();
+    setSelectedPhoto();
     setFaceDescriptor([]);
     setDetectionCount(0);
     setIsRunningFaceDetector(false);
@@ -130,7 +134,7 @@ export default function ModalEditStudent({ show, setShow, data }) {
           classroom: classroom,
           no_phone: noPhone,
           address: address,
-          photo_URL: photoURL,
+          photo_URL: isFile(selectedPhoto) ? photoURL : selectedPhoto,
           faceDescriptor: data?.faceDescriptor ? data?.faceDescriptor : faceDescriptor.toString(),
         });
         Swal.fire("Success!", "Updated photo is successfully!", "success");
@@ -159,6 +163,13 @@ export default function ModalEditStudent({ show, setShow, data }) {
   const modalOnHide = () => {
     setShow(false);
     setIsLoading(false);
+    setSelectedPhoto(data.photo_URL);
+    setPreviewPhoto();
+    setNis(data.nis);
+    setName(data.name);
+    setClassroom(data.classroom);
+    setNoPhone(data.no_phone);
+    setAddress(data.address);
     setFaceDescriptor([]);
     setDetectionCount(0);
     setIsRunningFaceDetector(false);
@@ -184,39 +195,45 @@ export default function ModalEditStudent({ show, setShow, data }) {
   };
 
   return (
-    <Modal size="xl" show={show} onHide={() => modalOnHide()}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add Student</Modal.Title>
-      </Modal.Header>
-      <Modal.Body style={{ zIndex: "0" }}>
-        <FormEditStudent
-          fileInput={fileInput}
-          photo={selectedPhoto}
-          previewPhoto={previewPhoto}
-          id={data.id}
-          nis={nis}
-          name={name}
-          classroom={classroom}
-          noPhone={noPhone}
-          address={address}
-          isRunningFaceDetector={isRunningFaceDetector}
-          detectionCount={detectionCount}
-          handleSelectedPhoto={handleSelectedPhoto}
-          handleClick={handleClick}
-          handleNis={handleNis}
-          handleName={handleName}
-          handleClassroom={handleClassroom}
-          handleNoPhone={handleNoPhone}
-          handleAddress={handleAddress}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="d-flex mx-auto">
-          <Button className="px-5 py-2" onClick={handleSubmit} disabled={disabled()}>
-            {isLoading ? `Loading...` : "Save"}
-          </Button>
-        </div>
-      </Modal.Footer>
-    </Modal>
+    <>
+      <Button className="btn-success" onClick={() => setShow(true)}>
+        Edit
+      </Button>
+
+      <Modal size="xl" show={show} onHide={modalOnHide}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Student</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ zIndex: "0" }}>
+          <FormEditStudent
+            fileInput={fileInput}
+            photo={selectedPhoto}
+            previewPhoto={previewPhoto}
+            id={data.id}
+            nis={nis}
+            name={name}
+            classroom={classroom}
+            noPhone={noPhone}
+            address={address}
+            isRunningFaceDetector={isRunningFaceDetector}
+            detectionCount={detectionCount}
+            handleSelectedPhoto={handleSelectedPhoto}
+            handleClick={handleClick}
+            handleNis={handleNis}
+            handleName={handleName}
+            handleClassroom={handleClassroom}
+            handleNoPhone={handleNoPhone}
+            handleAddress={handleAddress}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="d-flex mx-auto">
+            <Button className="px-5 py-2" onClick={handleSubmit} disabled={disabled()}>
+              {isLoading ? `Loading...` : "Save"}
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }

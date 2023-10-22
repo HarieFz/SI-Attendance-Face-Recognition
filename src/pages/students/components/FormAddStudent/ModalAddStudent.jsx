@@ -8,7 +8,7 @@ import FormAddStudent from "./FormAddStudent";
 import Swal from "sweetalert2";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-export default function ModalAddStudent({ show, setShow }) {
+export default function ModalAddStudent() {
   // State Forms
   const fileInput = useRef();
   const [selectedPhoto, setSelectedPhoto] = useState();
@@ -18,6 +18,9 @@ export default function ModalAddStudent({ show, setShow }) {
   const [classroom, setClassroom] = useState("");
   const [noPhone, setNoPhone] = useState(0);
   const [address, setAddress] = useState("");
+
+  // State Modal
+  const [show, setShow] = useState(false);
 
   // State Detect Face
   const [faceDescriptor, setFaceDescriptor] = useState([]);
@@ -160,52 +163,56 @@ export default function ModalAddStudent({ show, setShow }) {
   };
 
   return (
-    <Modal size="xl" show={show} onHide={() => modalOnHide()}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add Student</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <FormAddStudent
-          fileInput={fileInput}
-          previewPhoto={previewPhoto}
-          nis={nis}
-          name={name}
-          classroom={classroom}
-          noPhone={noPhone}
-          address={address}
-          isRunningFaceDetector={isRunningFaceDetector}
-          detectionCount={detectionCount}
-          handleSelectedPhoto={handleSelectedPhoto}
-          handleClick={handleClick}
-          handleNis={handleNis}
-          handleName={handleName}
-          handleClassroom={handleClassroom}
-          handleNoPhone={handleNoPhone}
-          handleAddress={handleAddress}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="d-flex mx-auto">
-          <Button
-            className="px-5 py-2"
-            onClick={handleSubmit}
-            disabled={
-              isLoading ||
-              !previewPhoto ||
-              !nis ||
-              !name ||
-              !classroom ||
-              !noPhone ||
-              !address ||
-              !faceDescriptor ||
-              !detectionCount ||
-              detectionCount > 1
-            }
-          >
-            {isLoading ? `Loading...` : "Save"}
-          </Button>
-        </div>
-      </Modal.Footer>
-    </Modal>
+    <>
+      <Button onClick={() => setShow(true)}>Add Student</Button>
+
+      <Modal size="xl" show={show} onHide={() => modalOnHide()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Student</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormAddStudent
+            fileInput={fileInput}
+            previewPhoto={previewPhoto}
+            nis={nis}
+            name={name}
+            classroom={classroom}
+            noPhone={noPhone}
+            address={address}
+            isRunningFaceDetector={isRunningFaceDetector}
+            detectionCount={detectionCount}
+            handleSelectedPhoto={handleSelectedPhoto}
+            handleClick={handleClick}
+            handleNis={handleNis}
+            handleName={handleName}
+            handleClassroom={handleClassroom}
+            handleNoPhone={handleNoPhone}
+            handleAddress={handleAddress}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="d-flex mx-auto">
+            <Button
+              className="px-5 py-2"
+              onClick={handleSubmit}
+              disabled={
+                isLoading ||
+                !previewPhoto ||
+                !nis ||
+                !name ||
+                !classroom ||
+                !noPhone ||
+                !address ||
+                !faceDescriptor ||
+                !detectionCount ||
+                detectionCount > 1
+              }
+            >
+              {isLoading ? `Loading...` : "Save"}
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }

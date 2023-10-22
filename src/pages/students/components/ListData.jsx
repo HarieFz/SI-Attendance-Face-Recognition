@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Table } from "react-bootstrap";
 import { db } from "../../../config/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -6,10 +6,6 @@ import Swal from "sweetalert2";
 import ModalEditStudent from "./FormEditStudent/ModalEditStudent";
 
 export default function ListData({ data }) {
-  // State
-  const [datas, setDatas] = useState({});
-  const [show, setShow] = useState(false);
-
   // Delete Data
   const deleteData = (id) => {
     Swal.fire({
@@ -26,11 +22,6 @@ export default function ListData({ data }) {
         Swal.fire("Deleted!", "File has been deleted.", "success");
       }
     });
-  };
-
-  const handleShow = (item) => {
-    setShow(true);
-    setDatas(item);
   };
 
   return (
@@ -58,9 +49,7 @@ export default function ListData({ data }) {
               <td>{item.address}</td>
               <td>
                 <div className="d-flex gap-3">
-                  <Button className="btn-success" onClick={() => handleShow(item)}>
-                    Edit
-                  </Button>
+                  <ModalEditStudent data={item} />
                   <Button className="btn-danger" onClick={() => deleteData(item.id)}>
                     Delete
                   </Button>
@@ -72,7 +61,6 @@ export default function ListData({ data }) {
       </Table>
 
       <hr className="mt-0" />
-      <ModalEditStudent show={show} setShow={setShow} data={datas} />
     </div>
   );
 }
