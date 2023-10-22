@@ -28,25 +28,25 @@ export default function TopBar() {
         <Navbar.Collapse className="gap-5">
           <Nav className="mx-auto">
             <Nav.Link as={Link} to="/">
-              Home
+              Dashboard
             </Nav.Link>
             <Nav.Link as={Link} to="/add-course">
-              Attendance
+              Absensi
             </Nav.Link>
             <Nav.Link as={Link} to="/register-students">
-              Students
+              Siswa
             </Nav.Link>
-            <NavDropdown title="More" id="basic-nav-dropdown">
+            <NavDropdown title="Lainnya" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/school-year">
-                Add School Year
+                Tahun Ajaran
               </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/recap-attendances">
-                Recap Attendance
+                Rekap Absensi
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Button variant="outline-primary" onClick={logout}>
-            <BiLogOut /> Logout
+            <BiLogOut /> Keluar
           </Button>
         </Navbar.Collapse>
       </Container>

@@ -10,10 +10,10 @@ export default function ListData({ data }) {
           <tr>
             <th>No</th>
             <th>NIS</th>
-            <th>Name</th>
-            <th>Classroom</th>
-            <th>Information</th>
-            <th>Action</th>
+            <th>Nama</th>
+            <th>Kelas</th>
+            <th>Keterangan</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -25,7 +25,15 @@ export default function ListData({ data }) {
                 <td>{e.name}</td>
                 <td>{e.classroom}</td>
                 <td>
-                  {e.attend ? "Attend" : e.permission ? "Permission" : e.sick ? "Sick" : e.absent ? "Absent" : "Absent"}
+                  {e.attend
+                    ? "Hadir"
+                    : e.permission
+                    ? "Izin"
+                    : e.sick
+                    ? "Sakit"
+                    : e.absent
+                    ? "Tidak Hadir"
+                    : "Tidak Hadir"}
                 </td>
                 <td>
                   <ModalEditAttend data={item} participant={e} />

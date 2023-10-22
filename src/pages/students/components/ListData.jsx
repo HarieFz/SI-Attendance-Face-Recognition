@@ -9,17 +9,18 @@ export default function ListData({ data }) {
   // Delete Data
   const deleteData = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak dapat mengembalikan data yang telah terhapus!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
+      cancelButtonText: "Batal",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Ya, Hapus!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deleteDoc(doc(db, "students", id));
-        Swal.fire("Deleted!", "File has been deleted.", "success");
+        Swal.fire("Terhapus!", "Data berhasil dihapus.", "success");
       }
     });
   };
@@ -31,11 +32,11 @@ export default function ListData({ data }) {
           <tr>
             <th>No</th>
             <th>NIS</th>
-            <th>Name</th>
-            <th>Classroom</th>
-            <th>No Phone Parent</th>
-            <th>Address</th>
-            <th>Action</th>
+            <th>Nama</th>
+            <th>Kelas</th>
+            <th>No Hp Orang Tua</th>
+            <th>Alamat</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -51,7 +52,7 @@ export default function ListData({ data }) {
                 <div className="d-flex gap-3">
                   <ModalEditStudent data={item} />
                   <Button className="btn-danger" onClick={() => deleteData(item.id)}>
-                    Delete
+                    Hapus
                   </Button>
                 </div>
               </td>

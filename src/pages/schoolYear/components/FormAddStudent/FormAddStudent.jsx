@@ -6,8 +6,8 @@ export default function FormAddStudent({ schoolYear, handleSchoolYear }) {
     <>
       <div className="px-5">
         <Form.Group className="my-4">
-          <Form.Label>School Year</Form.Label>
-          <Form.Control type="text" placeholder="School Year" value={schoolYear} onChange={handleSchoolYear} />
+          <Form.Label>Tahun Ajaran</Form.Label>
+          <Form.Control type="text" placeholder="2023/2024 - Ganjil" value={schoolYear} onChange={handleSchoolYear} />
         </Form.Group>
       </div>
     </>

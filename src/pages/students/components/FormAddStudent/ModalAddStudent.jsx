@@ -164,11 +164,11 @@ export default function ModalAddStudent() {
 
   return (
     <>
-      <Button onClick={() => setShow(true)}>Add Student</Button>
+      <Button onClick={() => setShow(true)}>Tambah Siswa</Button>
 
       <Modal size="xl" show={show} onHide={() => modalOnHide()}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Student</Modal.Title>
+          <Modal.Title>Tambah Siswa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FormAddStudent
@@ -208,7 +208,7 @@ export default function ModalAddStudent() {
                 detectionCount > 1
               }
             >
-              {isLoading ? `Loading...` : "Save"}
+              {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>
         </Modal.Footer>

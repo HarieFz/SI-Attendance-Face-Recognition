@@ -135,9 +135,9 @@ export default function FaceRecognition({ data, isLoading }) {
     <>
       <div className="d-flex gap-4">
         {captureVideo && modelsLoaded ? (
-          <Button onClick={closeWebcam}>Close Webcam</Button>
+          <Button onClick={closeWebcam}>Tutup Webcam</Button>
         ) : (
-          <Button onClick={startVideo}>Open Webcam</Button>
+          <Button onClick={startVideo}>Buka Webcam</Button>
         )}
       </div>
 

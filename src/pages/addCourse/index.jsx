@@ -97,14 +97,14 @@ export default function AddCourse() {
 
   return (
     <>
-      <h4 className="mb-4">Add Course</h4>
+      <h4 className="mb-4">Buat Pertemuan</h4>
       <div className="bg-body rounded border border-2 p-5" style={{ borderStyle: "dashed !important" }}>
         <Row>
           <Col>
             <Form.Group className="mb-4">
-              <Form.Label>School Year</Form.Label>
+              <Form.Label>Tahun Ajaran</Form.Label>
               <Form.Select onChange={handleYear}>
-                <option>Select School Year</option>
+                <option>Pilih Tahun Ajaran</option>
                 {schoolYear?.map((item, id) => (
                   <option key={id} value={item?.school_year}>
                     {item?.school_year}
@@ -115,7 +115,7 @@ export default function AddCourse() {
           </Col>
           <Col>
             <Form.Group className="mb-4">
-              <Form.Label>Date</Form.Label>
+              <Form.Label>Tanggal</Form.Label>
               <Form.Control type="date" placeholder="Student Address" value={date} onChange={handleDate} />
             </Form.Group>
           </Col>
@@ -126,7 +126,7 @@ export default function AddCourse() {
             <Form.Group className="mb-4">
               <Form.Label>School Year</Form.Label>
               <Form.Select onChange={handleClassroom}>
-                <option>Select Classroom</option>
+                <option>Pilih Kelas</option>
                 {classrooms()?.map((item, id) => (
                   <option key={id} value={item}>
                     {item}

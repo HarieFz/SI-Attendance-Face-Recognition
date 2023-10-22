@@ -67,9 +67,9 @@ export default function RecapAttendances() {
     <div>
       <div className="d-flex gap-3">
         <Form.Group className="mb-4">
-          <Form.Label>School Year</Form.Label>
+          <Form.Label>Tahun Ajaran</Form.Label>
           <Form.Select onChange={handleYear}>
-            <option>Select School Year</option>
+            <option>Pilih Tahun Ajaran</option>
             {schoolYear?.map((item, id) => (
               <option key={id} value={item?.school_year}>
                 {item?.school_year}
@@ -78,9 +78,9 @@ export default function RecapAttendances() {
           </Form.Select>
         </Form.Group>
         <Form.Group className="mb-4">
-          <Form.Label>School Year</Form.Label>
+          <Form.Label>Kelas</Form.Label>
           <Form.Select onChange={handleClassroom}>
-            <option>Select Classroom</option>
+            <option>Pilih Kelas</option>
             {classrooms()?.map((item, id) => (
               <option key={id} value={item}>
                 {item}
@@ -89,11 +89,11 @@ export default function RecapAttendances() {
           </Form.Select>
         </Form.Group>
         <Form.Group className="mb-4">
-          <Form.Label>Date Start</Form.Label>
+          <Form.Label>Tanggal Mulai</Form.Label>
           <Form.Control type="date" placeholder="Student Address" value={dateStart} onChange={handleDateStart} />
         </Form.Group>
         <Form.Group className="mb-4">
-          <Form.Label>Date End</Form.Label>
+          <Form.Label>Tanggal Akhir</Form.Label>
           <Form.Control type="date" placeholder="Student Address" value={dateEnd} onChange={handleDateEnd} />
         </Form.Group>
       </div>
@@ -104,8 +104,8 @@ export default function RecapAttendances() {
         </div>
       ) : (
         <p>
-          No data can be displayed.{" "}
-          <span className="text-danger">Please select the filter above to display the data</span>
+          Tidak ada data yang dapat ditampilkan.{" "}
+          <span className="text-danger">Silahkan pilih terlebih dahulu filter di atas.</span>
         </p>
       )}
     </div>

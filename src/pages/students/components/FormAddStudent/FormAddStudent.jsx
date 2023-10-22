@@ -24,7 +24,7 @@ export default function FormAddStudent({
     <>
       <div className="px-5">
         {/* Form Upload Photo */}
-        <Form.Label>Photo</Form.Label>
+        <Form.Label>Foto</Form.Label>
         <div className="d-flex">
           <UploadPhoto
             handleClick={handleClick}
@@ -56,8 +56,8 @@ export default function FormAddStudent({
           <Col>
             {/* Form Name */}
             <Form.Group className="my-4">
-              <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Student Name" value={name} onChange={handleName} />
+              <Form.Label>Nama</Form.Label>
+              <Form.Control type="text" placeholder="Nama Siswa" value={name} onChange={handleName} />
             </Form.Group>
           </Col>
         </Row>
@@ -66,23 +66,23 @@ export default function FormAddStudent({
           <Col>
             {/* Form Classroom */}
             <Form.Group className="mb-4">
-              <Form.Label>Classroom</Form.Label>
-              <Form.Control type="text" placeholder="Student Classroom" value={classroom} onChange={handleClassroom} />
+              <Form.Label>Kelas</Form.Label>
+              <Form.Control type="text" placeholder="Kelas" value={classroom} onChange={handleClassroom} />
             </Form.Group>
           </Col>
           <Col>
             {/* Form Number Phone Parent*/}
             <Form.Group className="mb-4">
-              <Form.Label>Number Phone Parent</Form.Label>
-              <Form.Control type="text" placeholder="Number Phone Parent" value={noPhone} onChange={handleNoPhone} />
+              <Form.Label>No Hp Orang Tua</Form.Label>
+              <Form.Control type="text" placeholder="No Hp Orang Tua" value={noPhone} onChange={handleNoPhone} />
             </Form.Group>
           </Col>
         </Row>
 
         {/* Form Address */}
         <Form.Group className="mb-4">
-          <Form.Label>Address</Form.Label>
-          <Form.Control as="textarea" rows={3} placeholder="Student Address" value={address} onChange={handleAddress} />
+          <Form.Label>Alamat</Form.Label>
+          <Form.Control as="textarea" rows={3} placeholder="Alamat Siswa" value={address} onChange={handleAddress} />
         </Form.Group>
       </div>
     </>

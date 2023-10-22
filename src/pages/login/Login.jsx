@@ -31,9 +31,9 @@ export default function Login() {
           <Form onSubmit={handleSignIn}>
             <div className="mb-4">
               {/* <img src={Logo} alt="" /> */}
-              <h3 style={{ color: "#094b72", textDecoration: "underline" }}>Attendance</h3>
+              <h3 style={{ color: "#094b72", textDecoration: "underline" }}>Absensi</h3>
               <h4 className="mt-4" style={{ color: "#094b72" }}>
-                Login
+                Masuk
               </h4>
             </div>
             <Form.Group className="mb-3">

@@ -8,14 +8,14 @@ export default function ModalEditAttend({ data, participant }) {
   // State Forms
   const [information, setInformation] = useState(
     participant.attend
-      ? "Attend"
+      ? "Hadir"
       : participant.permission
-      ? "Permission"
+      ? "Izin"
       : participant.sick
-      ? "Sick"
+      ? "Sakit"
       : participant.absent
-      ? "Absent"
-      : "Absent"
+      ? "Tidak Hadir"
+      : "Tidak Hadir"
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,10 +35,10 @@ export default function ModalEditAttend({ data, participant }) {
       }).then(async () => {
         const newParticipant = {
           ...participant,
-          attend: information === "Attend" ? 1 : 0,
-          permission: information === "Permission" ? 1 : 0,
-          sick: information === "Sick" ? 1 : 0,
-          absent: information === "Absent" ? 1 : 0,
+          attend: information === "Hadir" ? 1 : 0,
+          permission: information === "Izin" ? 1 : 0,
+          sick: information === "Sakit" ? 1 : 0,
+          absent: information === "Tidak Hadir" ? 1 : 0,
         };
         await updateDoc(doc(db, "attendance", data.id), {
           participants: arrayUnion(newParticipant),
@@ -46,7 +46,7 @@ export default function ModalEditAttend({ data, participant }) {
           console.log(err);
         });
       });
-      Swal.fire("Success!", "Updated Attendance is successfully!", "success");
+      Swal.fire("Success!", "Memperbarui berhasil!", "success");
       setIsLoading(false);
       setShowEdit(false);
       setInformation(
@@ -61,7 +61,7 @@ export default function ModalEditAttend({ data, participant }) {
           : "Absent"
       );
     } catch (err) {
-      Swal.fire("Something Error!", "Something Error!", "error");
+      Swal.fire("Something Error!", "Ada sesuatu kesalahan!", "error");
       setIsLoading(false);
       console.log(err);
     }
@@ -73,26 +73,26 @@ export default function ModalEditAttend({ data, participant }) {
     setIsLoading(false);
     setInformation(
       participant.attend
-        ? "Attend"
+        ? "Hadir"
         : participant.permission
-        ? "Permission"
+        ? "Izin"
         : participant.sick
-        ? "Sick"
+        ? "Sakit"
         : participant.absent
-        ? "Absent"
-        : "Absent"
+        ? "Tidak Hadir"
+        : "Tidak Hadir"
     );
   };
 
   return (
     <>
       <Button className="btn-success" onClick={() => setShowEdit(true)}>
-        Edit
+        Sunting
       </Button>
 
       <Modal size="xl" show={showEdit} onHide={() => modalOnHide()}>
         <Modal.Header closeButton>
-          <Modal.Title>Update Information Attendance</Modal.Title>
+          <Modal.Title>Perbarui Keterangan Absensi</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="my-4">
@@ -100,37 +100,37 @@ export default function ModalEditAttend({ data, participant }) {
             <Form.Control type="text" value={participant.nis} disabled={true} />
           </Form.Group>
           <Form.Group className="my-4">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Nama</Form.Label>
             <Form.Control type="text" value={participant.name} disabled={true} />
           </Form.Group>
           <Form.Group className="my-4">
-            <Form.Label>Classroom</Form.Label>
+            <Form.Label>Kelas</Form.Label>
             <Form.Control type="text" value={participant.classroom} disabled={true} />
           </Form.Group>
           <Form.Select
             onChange={handleInformation}
             defaultValue={
               participant.attend
-                ? "Attend"
+                ? "Hadir"
                 : participant.permission
-                ? "Permission"
+                ? "Izin"
                 : participant.sick
-                ? "Sick"
+                ? "Sakit"
                 : participant.absent
-                ? "Absent"
-                : "Absent"
+                ? "Tidak Hadir"
+                : "Tidak Hadir"
             }
           >
-            <option value="Attend">Attend</option>
-            <option value="Permission">Permission</option>
-            <option value="Sick">Sick</option>
-            <option value="Absent">Absent</option>
+            <option value="Hadir">Hadir</option>
+            <option value="Izin">Izin</option>
+            <option value="Sakit">Sakit</option>
+            <option value="Tidak Hadir">Tidak Hadir</option>
           </Form.Select>
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex mx-auto">
             <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !information}>
-              {isLoading ? `Loading...` : "Save"}
+              {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>
         </Modal.Footer>

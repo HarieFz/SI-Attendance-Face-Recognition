@@ -6,15 +6,18 @@ export default function ListData({ data }) {
     <div>
       <Table responsive bordered hover className="mb-0">
         <thead>
-          <tr>
-            <th>No</th>
-            <th>NIS</th>
-            <th>Name</th>
-            <th>Classroom</th>
-            <th>Attend</th>
-            <th>Permission</th>
-            <th>Sick</th>
-            <th>Absent</th>
+          <tr className="text-center">
+            <th rowSpan={3}>No</th>
+            <th rowSpan={3}>NIS</th>
+            <th rowSpan={3}>Nama</th>
+            <th rowSpan={3}>Kelas</th>
+            <th colSpan={4}>Keterangan</th>
+          </tr>
+          <tr className="text-center">
+            <th>Hadir</th>
+            <th>Izin</th>
+            <th>Sakit</th>
+            <th>Tidak Hadir</th>
           </tr>
         </thead>
         <tbody>

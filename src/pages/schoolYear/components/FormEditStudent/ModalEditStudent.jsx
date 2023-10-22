@@ -28,11 +28,11 @@ export default function ModalEditStudent({ data }) {
       await updateDoc(doc(db, "school_year", data.id), {
         school_year: schoolYear,
       });
-      Swal.fire("Success!", "Updated School Year is successfully!", "success");
+      Swal.fire("Success!", "Memperbarui berhasil!", "success");
       setIsLoading(false);
       setShowEdit(false);
     } catch (err) {
-      Swal.fire("Something Error!", "Something Error!", "error");
+      Swal.fire("Something Error!", "Telah terjadi sesuatu yang error!", "error");
       setIsLoading(false);
       console.log(err);
     }
@@ -47,11 +47,11 @@ export default function ModalEditStudent({ data }) {
   return (
     <>
       <Button className="btn-success" onClick={() => setShowEdit(true)}>
-        Edit
+        Sunting
       </Button>
       <Modal size="xl" show={showEdit} onHide={modalOnHide}>
         <Modal.Header closeButton>
-          <Modal.Title>Update School Year</Modal.Title>
+          <Modal.Title>Memperbarui Tahun Ajaran</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ zIndex: "0" }}>
           <FormEditStudent schoolYear={schoolYear} handleSchoolYear={handleSchoolYear} />
@@ -59,7 +59,7 @@ export default function ModalEditStudent({ data }) {
         <Modal.Footer>
           <div className="d-flex mx-auto">
             <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !schoolYear}>
-              {isLoading ? `Loading...` : "Save"}
+              {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>
         </Modal.Footer>

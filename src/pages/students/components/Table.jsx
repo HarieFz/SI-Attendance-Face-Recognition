@@ -25,7 +25,7 @@ const Table = ({ data, RenderComponent, contentPerPage }) => {
       {/* head */}
       <div className="d-flex justify-content-between px-4 pt-4">
         <h5>
-          Students | <small style={{ fontSize: 15 }}>total {data?.length}</small>
+          Siswa | <small style={{ fontSize: 15 }}>total {data?.length}</small>
         </h5>
         <div>
           <ModalAddStudent />
@@ -40,9 +40,9 @@ const Table = ({ data, RenderComponent, contentPerPage }) => {
 
       {/* footer */}
       <div className="d-flex justify-content-between px-4 pb-4">
-        <div className="mb-0 py-1 text-black-50">1 - 10 of {data?.length} students</div>
+        <div className="mb-0 py-1 text-black-50">1 - 10 dari {data?.length} siswa</div>
         <div className="mb-0 py-1 text-black-50">
-          {currentPage} of {totalPageCount} pages
+          {currentPage} dari {totalPageCount} halaman
         </div>
         <div className="d-flex gap-3">
           <button className="border-0 bg-white" onClick={gotToPreviousPage} disabled={currentPage === 1}>

@@ -24,12 +24,12 @@ export default function ModalAddStudent() {
       await addDoc(collection(db, "school_year"), {
         school_year: schoolYear,
       });
-      Swal.fire("Success!", "Added School Year is successfully!", "success");
+      Swal.fire("Success!", "Tahun Ajaran berhasil ditambahkan!", "success");
       setIsLoading(false);
       setShow(false);
       setSchoolYear("");
     } catch (err) {
-      Swal.fire("Something Error!", "Something Error!", "error");
+      Swal.fire("Something Error!", "Telah terjadi sesuatu yang error!", "error");
       setIsLoading(false);
       console.log(err);
     }
@@ -44,11 +44,11 @@ export default function ModalAddStudent() {
 
   return (
     <>
-      <Button onClick={() => setShow(true)}>Add Student</Button>
+      <Button onClick={() => setShow(true)}>Tambah Tahun Ajaran</Button>
 
       <Modal size="xl" show={show} onHide={() => modalOnHide()}>
         <Modal.Header closeButton>
-          <Modal.Title>Add School Year</Modal.Title>
+          <Modal.Title>Tambah Tahun Ajaran</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FormAddStudent schoolYear={schoolYear} handleSchoolYear={handleSchoolYear} />
@@ -56,7 +56,7 @@ export default function ModalAddStudent() {
         <Modal.Footer>
           <div className="d-flex mx-auto">
             <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !schoolYear}>
-              {isLoading ? `Loading...` : "Save"}
+              {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>
         </Modal.Footer>

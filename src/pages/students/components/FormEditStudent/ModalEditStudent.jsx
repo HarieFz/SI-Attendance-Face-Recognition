@@ -202,12 +202,12 @@ export default function ModalEditStudent({ data }) {
   return (
     <>
       <Button className="btn-success" onClick={() => setShow(true)}>
-        Edit
+        Sunting
       </Button>
 
       <Modal size="xl" show={show} onHide={modalOnHide}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Student</Modal.Title>
+          <Modal.Title>Sunting Data Siswa</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ zIndex: "0" }}>
           <FormEditStudent
@@ -234,7 +234,7 @@ export default function ModalEditStudent({ data }) {
         <Modal.Footer>
           <div className="d-flex mx-auto">
             <Button className="px-5 py-2" onClick={handleSubmit} disabled={disabled()}>
-              {isLoading ? `Loading...` : "Save"}
+              {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>
         </Modal.Footer>

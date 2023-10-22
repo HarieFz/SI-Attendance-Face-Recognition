@@ -18,17 +18,17 @@ export default function AttendanceRoom() {
 
   return (
     <>
-      <h4 className="mb-4">Attendance Room</h4>
+      <h4 className="mb-4">Absensi</h4>
       <div className="d-flex gap-4 mb-3">
         <p>
-          <span className="fw-semibold">School Year</span> :{" "}
+          <span className="fw-semibold">Tahun Ajaran</span> :{" "}
           <span className="border rounded p-2">{state.school_year}</span>
         </p>
         <p>
-          <span className="fw-semibold">Date</span> : <span className="border rounded p-2">{state.date}</span>
+          <span className="fw-semibold">Tanggal</span> : <span className="border rounded p-2">{state.date}</span>
         </p>
         <p>
-          <span className="fw-semibold">Classroom</span> : <span className="border rounded p-2">{state.classroom}</span>
+          <span className="fw-semibold">Kelas</span> : <span className="border rounded p-2">{state.classroom}</span>
         </p>
       </div>
       <Row>

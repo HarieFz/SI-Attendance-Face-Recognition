@@ -23,7 +23,7 @@ export default function EditUploadPhoto({ handleClick, photo, previewPhoto, file
         ) : (
           <div className="text-center text-black-50" style={{ marginTop: "35px" }}>
             <AiOutlineCloudUpload size="50px" />
-            <p>Upload Photo</p>
+            <p>Unggah Foto</p>
           </div>
         )}
       </div>
