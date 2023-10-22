@@ -5,10 +5,13 @@ import { db } from "../../../../config/firebase";
 import FormEditStudent from "./FormEditStudent";
 import Swal from "sweetalert2";
 
-export default function ModalEditStudent({ showEdit, setShowEdit, data }) {
+export default function ModalEditStudent({ data }) {
   // State Forms
   const [schoolYear, setSchoolYear] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // State Modal
+  const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
     setSchoolYear(data.school_year);
@@ -35,27 +38,26 @@ export default function ModalEditStudent({ showEdit, setShowEdit, data }) {
     }
   };
 
-  // Clear State Modal on Hide
-  const modalOnHide = () => {
-    setShowEdit(false);
-    setIsLoading(false);
-  };
-
   return (
-    <Modal size="xl" show={showEdit} onHide={() => modalOnHide()}>
-      <Modal.Header closeButton>
-        <Modal.Title>Update School Year</Modal.Title>
-      </Modal.Header>
-      <Modal.Body style={{ zIndex: "0" }}>
-        <FormEditStudent schoolYear={schoolYear} handleSchoolYear={handleSchoolYear} />
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="d-flex mx-auto">
-          <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !schoolYear}>
-            {isLoading ? `Loading...` : "Save"}
-          </Button>
-        </div>
-      </Modal.Footer>
-    </Modal>
+    <>
+      <Button className="btn-success" onClick={() => setShowEdit(true)}>
+        Edit
+      </Button>
+      <Modal size="xl" show={showEdit} onHide={() => setShowEdit(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update School Year</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ zIndex: "0" }}>
+          <FormEditStudent schoolYear={schoolYear} handleSchoolYear={handleSchoolYear} />
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="d-flex mx-auto">
+            <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !schoolYear}>
+              {isLoading ? `Loading...` : "Save"}
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }

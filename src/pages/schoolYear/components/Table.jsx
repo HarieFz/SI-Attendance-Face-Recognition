@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
 import ModalAddStudent from "./FormAddStudent/ModalAddStudent";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
@@ -7,9 +6,6 @@ const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
   // State Pagination
   const [totalPageCount] = useState(Math.ceil(data?.length / contentPerPage));
   const [currentPage, setCurrentPage] = useState(1);
-
-  // State Modal
-  const [show, setShow] = useState(false);
 
   // Pagination
   function goToNextPage() {
@@ -32,7 +28,7 @@ const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
           School Year | <small style={{ fontSize: 15 }}>total {data?.length}</small>
         </h5>
         <div>
-          <Button onClick={() => setShow(true)}>Add Student</Button>
+          <ModalAddStudent />
         </div>
       </div>
       <hr style={{ height: "5px", border: "none", background: "#000000" }} />
@@ -59,7 +55,6 @@ const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
           </button>
         </div>
       </div>
-      <ModalAddStudent show={show} setShow={setShow} />
     </div>
   );
 };

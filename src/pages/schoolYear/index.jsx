@@ -7,8 +7,6 @@ export default function SchoolYear() {
   const schoolYear = useFetchAllData("/school_year");
   const { data, isLoading } = schoolYear;
 
-  console.log(data);
-
   return (
     <>
       {data.length !== 0 ? (
