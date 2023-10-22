@@ -1,19 +1,8 @@
-import React, { useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import React from "react";
+import { Table } from "react-bootstrap";
 import ModalEditAttend from "./ModalEditAttend";
 
 export default function ListData({ data }) {
-  // State
-  const [show, setShow] = useState(false);
-  const [datas, setDatas] = useState([]);
-  const [participant, setParticipant] = useState([]);
-
-  const handleShow = (item, e) => {
-    setShow(true);
-    setDatas(item);
-    setParticipant(e);
-  };
-
   return (
     <div>
       <Table responsive bordered hover className="mb-0">
@@ -39,9 +28,7 @@ export default function ListData({ data }) {
                   {e.attend ? "Attend" : e.permission ? "Permission" : e.sick ? "Sick" : e.absent ? "Absent" : "Absent"}
                 </td>
                 <td>
-                  <Button className="btn-success" onClick={() => handleShow(item, e)}>
-                    Edit
-                  </Button>
+                  <ModalEditAttend data={item} participant={e} />
                 </td>
               </tr>
             ))
@@ -50,7 +37,6 @@ export default function ListData({ data }) {
       </Table>
 
       <hr className="mt-0" />
-      <ModalEditAttend data={datas} participant={participant} showEdit={show} setShowEdit={setShow} />
     </div>
   );
 }

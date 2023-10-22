@@ -4,7 +4,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { db } from "../../../../config/firebase";
 
-export default function ModalEditAttend({ data, participant, showEdit, setShowEdit }) {
+export default function ModalEditAttend({ data, participant }) {
   // State Forms
   const [information, setInformation] = useState(
     participant.attend
@@ -19,7 +19,10 @@ export default function ModalEditAttend({ data, participant, showEdit, setShowEd
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  // handler
+  // State Modal
+  const [showEdit, setShowEdit] = useState(false);
+
+  // Handler
   const handleInformation = (e) => setInformation(e.target.value);
 
   // Handle Submit
@@ -82,50 +85,56 @@ export default function ModalEditAttend({ data, participant, showEdit, setShowEd
   };
 
   return (
-    <Modal size="xl" show={showEdit} onHide={() => modalOnHide()}>
-      <Modal.Header closeButton>
-        <Modal.Title>Update Information Attendance</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form.Group className="my-4">
-          <Form.Label>NIS</Form.Label>
-          <Form.Control type="text" value={participant.nis} disabled={true} />
-        </Form.Group>
-        <Form.Group className="my-4">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" value={participant.name} disabled={true} />
-        </Form.Group>
-        <Form.Group className="my-4">
-          <Form.Label>Classroom</Form.Label>
-          <Form.Control type="text" value={participant.classroom} disabled={true} />
-        </Form.Group>
-        <Form.Select
-          onChange={handleInformation}
-          defaultValue={
-            participant.attend
-              ? "Attend"
-              : participant.permission
-              ? "Permission"
-              : participant.sick
-              ? "Sick"
-              : participant.absent
-              ? "Absent"
-              : "Absent"
-          }
-        >
-          <option value="Attend">Attend</option>
-          <option value="Permission">Permission</option>
-          <option value="Sick">Sick</option>
-          <option value="Absent">Absent</option>
-        </Form.Select>
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="d-flex mx-auto">
-          <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !information}>
-            {isLoading ? `Loading...` : "Save"}
-          </Button>
-        </div>
-      </Modal.Footer>
-    </Modal>
+    <>
+      <Button className="btn-success" onClick={() => setShowEdit(true)}>
+        Edit
+      </Button>
+
+      <Modal size="xl" show={showEdit} onHide={() => modalOnHide()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Information Attendance</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group className="my-4">
+            <Form.Label>NIS</Form.Label>
+            <Form.Control type="text" value={participant.nis} disabled={true} />
+          </Form.Group>
+          <Form.Group className="my-4">
+            <Form.Label>Name</Form.Label>
+            <Form.Control type="text" value={participant.name} disabled={true} />
+          </Form.Group>
+          <Form.Group className="my-4">
+            <Form.Label>Classroom</Form.Label>
+            <Form.Control type="text" value={participant.classroom} disabled={true} />
+          </Form.Group>
+          <Form.Select
+            onChange={handleInformation}
+            defaultValue={
+              participant.attend
+                ? "Attend"
+                : participant.permission
+                ? "Permission"
+                : participant.sick
+                ? "Sick"
+                : participant.absent
+                ? "Absent"
+                : "Absent"
+            }
+          >
+            <option value="Attend">Attend</option>
+            <option value="Permission">Permission</option>
+            <option value="Sick">Sick</option>
+            <option value="Absent">Absent</option>
+          </Form.Select>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="d-flex mx-auto">
+            <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !information}>
+              {isLoading ? `Loading...` : "Save"}
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
