@@ -38,12 +38,18 @@ export default function ModalEditStudent({ data }) {
     }
   };
 
+  const modalOnHide = () => {
+    setShowEdit(false);
+    setIsLoading(false);
+    setSchoolYear(data.school_year);
+  };
+
   return (
     <>
       <Button className="btn-success" onClick={() => setShowEdit(true)}>
         Edit
       </Button>
-      <Modal size="xl" show={showEdit} onHide={() => setShowEdit(false)}>
+      <Modal size="xl" show={showEdit} onHide={modalOnHide}>
         <Modal.Header closeButton>
           <Modal.Title>Update School Year</Modal.Title>
         </Modal.Header>
