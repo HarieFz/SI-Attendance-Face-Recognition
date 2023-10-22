@@ -20,8 +20,6 @@ export default function ModalEditStudent({ data }) {
   const [address, setAddress] = useState("");
   const [show, setShow] = useState(false);
 
-  console.log(address);
-
   useEffect(() => {
     setSelectedPhoto(data.photo_URL);
     setNis(data.nis);
