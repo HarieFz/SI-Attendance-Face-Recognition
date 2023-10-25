@@ -1,6 +1,6 @@
 import React from "react";
 
-const Table = ({ data, RenderComponent }) => {
+const Table = ({ data, weeks, total, RenderComponent }) => {
   return (
     <div>
       {/* head */}
@@ -13,7 +13,7 @@ const Table = ({ data, RenderComponent }) => {
 
       {/* Body */}
       <div>
-        <RenderComponent data={data} />
+        <RenderComponent data={data} weeks={weeks} total={total} />
       </div>
     </div>
   );

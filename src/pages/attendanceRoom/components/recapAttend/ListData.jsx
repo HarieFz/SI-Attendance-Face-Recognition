@@ -33,7 +33,7 @@ export default function ListData({ data }) {
                     ? "Sakit"
                     : e.absent
                     ? "Tidak Hadir"
-                    : "Tidak Hadir"}
+                    : "Tanpa Keterangan"}
                 </td>
                 <td>
                   <ModalEditAttend data={item} participant={e} />

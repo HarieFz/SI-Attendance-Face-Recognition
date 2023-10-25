@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import useFetchAllData from "../../hooks/query/useFetchAllData";
-import Table from "./components/Table";
-import ListData from "./components/ListData";
 import { Form } from "react-bootstrap";
+import ListData from "./components/ListData";
+import Table from "./components/Table";
+import useFetchAllData from "../../hooks/query/useFetchAllData";
 
 export default function RecapAttendances() {
   // Fetch Data
@@ -24,7 +24,7 @@ export default function RecapAttendances() {
   const handleClassroom = (e) => setClassroom(e.target.value);
 
   // Remove Duplicates Classrooms
-  const classrooms = () => {
+  const getClassrooms = () => {
     const dataClassrooms = student?.map((item) => {
       return item?.classroom;
     });
@@ -34,6 +34,26 @@ export default function RecapAttendances() {
     });
 
     return uniqueClassroom;
+  };
+
+  // Get weeks from 1 semester
+  const getWeeks = () => {
+    const start = new Date(year?.start_date);
+    const end = new Date(year?.end_date);
+
+    const DAY = 24 * 60 * 60 * 1000;
+
+    const weeks = [];
+    for (let newStart = start.valueOf(); newStart < end; newStart += DAY * 7) {
+      const days = [];
+      for (let d = newStart; d < newStart + 7 * DAY; d += DAY) {
+        const v = new Date(d).toISOString().slice(0, 10);
+        days.push(v);
+      }
+      weeks.push(days);
+    }
+
+    return weeks;
   };
 
   // Filter Data
@@ -48,28 +68,8 @@ export default function RecapAttendances() {
     )
     .flat(1);
 
-  // Get weeks from 1 semester
-  // const getWeeks = () => {
-  //   const start = new Date(year?.start_date);
-  //   const end = new Date(year?.end_date);
-
-  //   const DAY = 24 * 60 * 60 * 1000;
-
-  //   const weeks = [];
-  //   for (let newStart = start.valueOf(); newStart < end; newStart += DAY * 7) {
-  //     const days = [];
-  //     for (let d = newStart; d < newStart + 7 * DAY; d += DAY) {
-  //       const v = new Date(d).toISOString().slice(0, 10);
-  //       days.push(v);
-  //     }
-  //     weeks.push(days);
-  //   }
-
-  //   return weeks;
-  // };
-
   // Reduce Data Attendances
-  const res = () => {
+  const reduceDatas = () => {
     const current = {};
     const finalArr = [];
     filterData.forEach((o) => {
@@ -89,6 +89,51 @@ export default function RecapAttendances() {
     return finalArr;
   };
 
+  const transformData = (array1, array2) => {
+    const output = [];
+
+    array2.forEach((student) => {
+      const studentInfo = {
+        nis: student.nis,
+        name: student.name,
+        classroom: student.classroom,
+        information: [],
+        total: [{ attend: 0, permission: 0, sick: 0, absent: 0 }],
+      };
+
+      array1.forEach((week) => {
+        const weekInfo = { attend: 0, permission: 0, sick: 0, absent: 0, date: "" };
+
+        week.forEach((date) => {
+          const info = student.information.find((item) => item.date === date);
+          if (info) {
+            weekInfo.attend += info.attend;
+            weekInfo.permission += info.permission;
+            weekInfo.sick += info.sick;
+            weekInfo.absent += info.absent;
+            weekInfo.date = date;
+          }
+        });
+
+        studentInfo.information.push({ ...weekInfo });
+        studentInfo.total[0].attend += weekInfo.attend;
+        studentInfo.total[0].permission += weekInfo.permission;
+        studentInfo.total[0].sick += weekInfo.sick;
+        studentInfo.total[0].absent += weekInfo.absent;
+      });
+
+      output.push(studentInfo);
+    });
+
+    return output;
+  };
+
+  // Caller function
+  const weeks = getWeeks();
+  const reduceData = reduceDatas();
+  const classrooms = getClassrooms();
+  const transformedData = transformData(weeks, reduceData);
+
   return (
     <div>
       <div className="d-flex gap-3">
@@ -107,7 +152,7 @@ export default function RecapAttendances() {
           <Form.Label>Kelas</Form.Label>
           <Form.Select onChange={handleClassroom}>
             <option>Pilih Kelas</option>
-            {classrooms()?.map((item, id) => (
+            {classrooms?.map((item, id) => (
               <option key={id} value={item}>
                 {item}
               </option>
@@ -118,7 +163,7 @@ export default function RecapAttendances() {
 
       {filterData?.length !== 0 ? (
         <div className="mx-auto bg-body border rounded mb-5">
-          <Table data={res()} RenderComponent={ListData} />
+          <Table data={transformedData} weeks={weeks} RenderComponent={ListData} />
         </div>
       ) : (
         <p>

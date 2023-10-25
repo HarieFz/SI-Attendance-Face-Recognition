@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { Button, Form, Modal } from "react-bootstrap";
-import Swal from "sweetalert2";
 import { db } from "../../../../config/firebase";
+import Swal from "sweetalert2";
 
 export default function ModalEditAttend({ data, participant }) {
   // State Forms
@@ -15,7 +15,7 @@ export default function ModalEditAttend({ data, participant }) {
       ? "Sakit"
       : participant.absent
       ? "Tidak Hadir"
-      : "Tidak Hadir"
+      : "Tanpa Keterangan"
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,6 +39,7 @@ export default function ModalEditAttend({ data, participant }) {
           permission: information === "Izin" ? 1 : 0,
           sick: information === "Sakit" ? 1 : 0,
           absent: information === "Tidak Hadir" ? 1 : 0,
+          na: information === "Tanpa Keterangan" || 0,
         };
         await updateDoc(doc(db, "attendance", data.id), {
           participants: arrayUnion(newParticipant),
@@ -58,7 +59,7 @@ export default function ModalEditAttend({ data, participant }) {
           ? "Sick"
           : participant.absent
           ? "Absent"
-          : "Absent"
+          : "Tanpa Keterangan"
       );
     } catch (err) {
       Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
@@ -80,7 +81,7 @@ export default function ModalEditAttend({ data, participant }) {
         ? "Sakit"
         : participant.absent
         ? "Tidak Hadir"
-        : "Tidak Hadir"
+        : "Tanpa Keterangan"
     );
   };
 
@@ -118,9 +119,10 @@ export default function ModalEditAttend({ data, participant }) {
                 ? "Sakit"
                 : participant.absent
                 ? "Tidak Hadir"
-                : "Tidak Hadir"
+                : "Tanpa Keterangan"
             }
           >
+            <option value="Tanpa Keterangan">Tidak Keterangan</option>
             <option value="Hadir">Hadir</option>
             <option value="Izin">Izin</option>
             <option value="Sakit">Sakit</option>
