@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { Button, Modal } from "react-bootstrap";
 import { db } from "../../../../config/firebase";
-import FormAddStudent from "./FormAddStudent";
+import FormAddSchoolYear from "./FormAddSchoolYear";
 import Swal from "sweetalert2";
 
-export default function ModalAddStudent() {
+export default function ModalAddSchoolYear() {
   // State Forms
   const [schoolYear, setSchoolYear] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   // State Modal
@@ -15,6 +17,8 @@ export default function ModalAddStudent() {
 
   // handler
   const handleSchoolYear = (e) => setSchoolYear(e.target.value);
+  const handleStartDate = (e) => setStartDate(e.target.value);
+  const handleEndDate = (e) => setEndDate(e.target.value);
 
   // Handle Submit
   const handleSubmit = async (e) => {
@@ -23,13 +27,15 @@ export default function ModalAddStudent() {
     try {
       await addDoc(collection(db, "school_year"), {
         school_year: schoolYear,
+        start_date: startDate,
+        end_date: endDate,
       });
-      Swal.fire("Success!", "Tahun Ajaran berhasil ditambahkan!", "success");
+      Swal.fire("Berhasil!", "Tahun Ajaran berhasil ditambahkan!", "success");
       setIsLoading(false);
       setShow(false);
       setSchoolYear("");
     } catch (err) {
-      Swal.fire("Something Error!", "Telah terjadi sesuatu yang error!", "error");
+      Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
       setIsLoading(false);
       console.log(err);
     }
@@ -51,7 +57,14 @@ export default function ModalAddStudent() {
           <Modal.Title>Tambah Tahun Ajaran</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormAddStudent schoolYear={schoolYear} handleSchoolYear={handleSchoolYear} />
+          <FormAddSchoolYear
+            schoolYear={schoolYear}
+            startDate={startDate}
+            endDate={endDate}
+            handleSchoolYear={handleSchoolYear}
+            handleStartDate={handleStartDate}
+            handleEndDate={handleEndDate}
+          />
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex mx-auto">

@@ -17,20 +17,24 @@ export default function ListData({ data }) {
             <th>Hadir</th>
             <th>Izin</th>
             <th>Sakit</th>
-            <th>Tidak Hadir</th>
+            <th>Alpa</th>
           </tr>
         </thead>
         <tbody>
           {data?.map((item, idx) => (
             <tr key={idx}>
               <td>{idx + 1}</td>
-              <td>{item.nis}</td>
-              <td>{item.name}</td>
-              <td>{item.classroom}</td>
-              <td>{item.attend}</td>
-              <td>{item.permission}</td>
-              <td>{item.sick}</td>
-              <td>{item.absent}</td>
+              <td>{item?.nis}</td>
+              <td>{item?.name}</td>
+              <td>{item?.classroom}</td>
+              {item?.information?.map((e, i) => (
+                <>
+                  <td>{e?.attend}</td>
+                  <td>{e?.permission}</td>
+                  <td>{e?.sick}</td>
+                  <td>{e?.absent}</td>
+                </>
+              ))}
             </tr>
           ))}
         </tbody>

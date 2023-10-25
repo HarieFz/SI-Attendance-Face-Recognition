@@ -135,7 +135,7 @@ export default function ModalEditStudent({ data }) {
           photo_URL: isFile(selectedPhoto) ? photoURL : selectedPhoto,
           faceDescriptor: data?.faceDescriptor ? data?.faceDescriptor : faceDescriptor.toString(),
         });
-        Swal.fire("Success!", "Updated photo is successfully!", "success");
+        Swal.fire("Berhasil!", "Data berhasil diperbarui!", "success");
         setIsLoading(false);
         setSelectedPhoto(data.photo_URL);
         setPreviewPhoto();
@@ -149,7 +149,7 @@ export default function ModalEditStudent({ data }) {
         setIsRunningFaceDetector(false);
         setShow(false);
       } catch (err) {
-        Swal.fire("Something Error!", "Something Error!", "error");
+        Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
         setIsLoading(false);
         console.log(err);
       }

@@ -45,7 +45,7 @@ export default function AddCourse() {
 
     students?.map((item) => {
       const attend = 0;
-      const absent = 1;
+      const absent = 0;
       const permission = 0;
       const sick = 0;
 
@@ -77,7 +77,7 @@ export default function AddCourse() {
         participants: participants(),
       })
         .then(() => {
-          Swal.fire("Success!", "Added course is successfully!", "success");
+          Swal.fire("Berhasil!", "Berhasil membuat pertemuan!", "success");
           setIsLoading(false);
           setDate("");
           setYear("");
@@ -85,7 +85,7 @@ export default function AddCourse() {
           navigate("/attendance", { state: { school_year: year, date, classroom } });
         })
         .catch((err) => {
-          Swal.fire("Something Error!", "Something Error!", "error");
+          Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
           console.log(err);
           setIsLoading(false);
           setDate("");
@@ -143,7 +143,7 @@ export default function AddCourse() {
           onClick={handleSubmit}
           disabled={!year || !date || !classroom || participants().length === 0 || isLoading}
         >
-          {isLoading ? "Loading..." : "Add Course"}
+          {isLoading ? "Loading..." : "Lanjutkan"}
         </Button>
       </div>
     </>

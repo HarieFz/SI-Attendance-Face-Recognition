@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { db } from "../../../config/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
-import ModalEditStudent from "./FormEditStudent/ModalEditStudent";
 import Swal from "sweetalert2";
+import ModalEditSchoolYear from "./FormEditStudent/ModalEditSchoolYear";
 
 export default function ListData({ data }) {
   // Delete Data
@@ -27,19 +27,37 @@ export default function ListData({ data }) {
 
   return (
     <div>
-      {/* body */}
-      <div className="d-flex justify-content-between align-items-center">
-        <div>
-          <p className="m-0">{data?.school_year}</p>
-        </div>
-        <div className="d-flex gap-3">
-          <ModalEditStudent data={data} />
-          <Button className="btn-danger" onClick={() => deleteData(data.id)}>
-            Hapus
-          </Button>
-        </div>
-      </div>
-      <hr />
+      <Table responsive bordered hover className="mb-0">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Tahun Ajaran</th>
+            <th>Tanggal Mulai</th>
+            <th>Tanggal Akhir</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.map((item, idx) => (
+            <tr key={idx}>
+              <td>{idx + 1}</td>
+              <td>{item.school_year}</td>
+              <td>{item.start_date}</td>
+              <td>{item.end_date}</td>
+              <td>
+                <div className="d-flex gap-3">
+                  <ModalEditSchoolYear data={item} />
+                  <Button className="btn-danger" onClick={() => deleteData(item.id)}>
+                    Hapus
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <hr className="mt-0" />
     </div>
   );
 }

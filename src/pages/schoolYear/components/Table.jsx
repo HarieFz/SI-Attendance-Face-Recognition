@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ModalAddStudent from "./FormAddStudent/ModalAddStudent";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import ModalAddSchoolYear from "./FormAddStudent/ModalAddSchoolYear";
 
 const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
   // State Pagination
@@ -28,16 +28,14 @@ const Table = ({ data, isLoading, RenderComponent, contentPerPage }) => {
           Tahun Ajaran | <small style={{ fontSize: 15 }}>total {data?.length}</small>
         </h5>
         <div>
-          <ModalAddStudent />
+          <ModalAddSchoolYear />
         </div>
       </div>
-      <hr style={{ height: "5px", border: "none", background: "#000000" }} />
+      <hr style={{ height: "5px", marginBottom: "0", border: "none", background: "#000000" }} />
 
       {/* Body */}
-      <div className="px-4 mb-4">
-        {isLoading
-          ? "Loading..."
-          : getPaginatedData()?.map((dataItem, index) => <RenderComponent key={index} data={dataItem} />)}
+      <div>
+        <RenderComponent data={getPaginatedData()} />
       </div>
 
       {/* footer */}

@@ -16,16 +16,12 @@ export default function RecapAttendances() {
   const { data: attendance } = attendances;
 
   // State
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState({});
   const [classroom, setClassroom] = useState("");
-  const [dateStart, setDateStart] = useState("");
-  const [dateEnd, setDateEnd] = useState("");
 
   // Handler
-  const handleYear = (e) => setYear(e.target.value);
+  const handleYear = (e) => setYear(JSON.parse(e.target.value));
   const handleClassroom = (e) => setClassroom(e.target.value);
-  const handleDateStart = (e) => setDateStart(e.target.value);
-  const handleDateEnd = (e) => setDateEnd(e.target.value);
 
   // Remove Duplicates Classrooms
   const classrooms = () => {
@@ -42,25 +38,55 @@ export default function RecapAttendances() {
 
   // Filter Data
   const filterData = attendance
-    ?.filter((item) => item?.school_year === year)
+    ?.filter((item) => item?.school_year === year?.school_year)
     ?.filter((item) => item?.classroom === classroom)
-    ?.filter((item) => item?.date >= dateStart && item.date <= dateEnd)
-    ?.map((item) => item?.participants?.map((e) => e))
+    ?.filter((item) => item?.date >= year?.start_date && item.date <= year?.end_date)
+    ?.map((item) =>
+      item?.participants?.map((e) => {
+        return { ...e, date: item?.date };
+      })
+    )
     .flat(1);
 
-  // Reduce Data
-  const res = () => {
-    const group = {};
+  // Get weeks from 1 semester
+  // const getWeeks = () => {
+  //   const start = new Date(year?.start_date);
+  //   const end = new Date(year?.end_date);
 
-    filterData.forEach((e) => {
-      const o = (group[e.name] = group[e.name] || { ...e, attend: 0, permission: 0, sick: 0, absent: 0 });
-      o.attend += e.attend;
-      o.permission += e.permission;
-      o.sick += e.sick;
-      o.absent += e.absent;
+  //   const DAY = 24 * 60 * 60 * 1000;
+
+  //   const weeks = [];
+  //   for (let newStart = start.valueOf(); newStart < end; newStart += DAY * 7) {
+  //     const days = [];
+  //     for (let d = newStart; d < newStart + 7 * DAY; d += DAY) {
+  //       const v = new Date(d).toISOString().slice(0, 10);
+  //       days.push(v);
+  //     }
+  //     weeks.push(days);
+  //   }
+
+  //   return weeks;
+  // };
+
+  // Reduce Data Attendances
+  const res = () => {
+    const current = {};
+    const finalArr = [];
+    filterData.forEach((o) => {
+      if (!current[o.name]) {
+        current[o.name] = [];
+        finalArr.push({ nis: o.nis, name: o.name, classroom: o.classroom, information: current[o.name] });
+      }
+      current[o.name].push({
+        attend: o?.attend,
+        permission: o?.permission,
+        sick: o?.sick,
+        absent: o?.absent,
+        date: o?.date,
+      });
     });
 
-    return Object.values(group);
+    return finalArr;
   };
 
   return (
@@ -70,8 +96,8 @@ export default function RecapAttendances() {
           <Form.Label>Tahun Ajaran</Form.Label>
           <Form.Select onChange={handleYear}>
             <option>Pilih Tahun Ajaran</option>
-            {schoolYear?.map((item, id) => (
-              <option key={id} value={item?.school_year}>
+            {schoolYear?.map((item) => (
+              <option key={item?.id} value={JSON.stringify(item)}>
                 {item?.school_year}
               </option>
             ))}
@@ -87,14 +113,6 @@ export default function RecapAttendances() {
               </option>
             ))}
           </Form.Select>
-        </Form.Group>
-        <Form.Group className="mb-4">
-          <Form.Label>Tanggal Mulai</Form.Label>
-          <Form.Control type="date" placeholder="Student Address" value={dateStart} onChange={handleDateStart} />
-        </Form.Group>
-        <Form.Group className="mb-4">
-          <Form.Label>Tanggal Akhir</Form.Label>
-          <Form.Control type="date" placeholder="Student Address" value={dateEnd} onChange={handleDateEnd} />
         </Form.Group>
       </div>
 

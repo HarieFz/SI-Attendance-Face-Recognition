@@ -125,7 +125,7 @@ export default function ModalAddStudent() {
     const photoURL = await handlePhoto();
     createPost(photoURL)
       .then(() => {
-        Swal.fire("Success!", "Added photo is successfully!", "success");
+        Swal.fire("Berhasil!", "Foto berhasil ditambahkan!", "success");
         setIsLoading(false);
         setSelectedPhoto();
         setPreviewPhoto();
@@ -140,7 +140,7 @@ export default function ModalAddStudent() {
         setShow(false);
       })
       .catch((err) => {
-        Swal.fire("Something Error!", "Something Error!", "error");
+        Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
         setIsLoading(false);
         console.log(err);
       });

@@ -46,7 +46,7 @@ export default function ModalEditAttend({ data, participant }) {
           console.log(err);
         });
       });
-      Swal.fire("Success!", "Memperbarui berhasil!", "success");
+      Swal.fire("Berhasil!", "Berhasil Memperbarui!", "success");
       setIsLoading(false);
       setShowEdit(false);
       setInformation(
@@ -61,7 +61,7 @@ export default function ModalEditAttend({ data, participant }) {
           : "Absent"
       );
     } catch (err) {
-      Swal.fire("Something Error!", "Ada sesuatu kesalahan!", "error");
+      Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
       setIsLoading(false);
       console.log(err);
     }
