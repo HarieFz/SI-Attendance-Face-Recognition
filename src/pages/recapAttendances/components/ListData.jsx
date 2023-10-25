@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Table } from "react-bootstrap";
 
 export default function ListData({ data }) {
@@ -28,12 +28,12 @@ export default function ListData({ data }) {
               <td>{item?.name}</td>
               <td>{item?.classroom}</td>
               {item?.information?.map((e, i) => (
-                <>
+                <Fragment key={i}>
                   <td>{e?.attend}</td>
                   <td>{e?.permission}</td>
                   <td>{e?.sick}</td>
                   <td>{e?.absent}</td>
-                </>
+                </Fragment>
               ))}
             </tr>
           ))}
