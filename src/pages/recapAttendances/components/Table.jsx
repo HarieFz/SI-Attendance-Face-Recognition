@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import * as XLSX from "xlsx";
 
-const Table = ({ data, weeks, RenderComponent }) => {
+const Table = ({ data, weeks, schoolYear, classroom, RenderComponent }) => {
   // Transform data
   const prep = data
     ?.map((obj) =>
@@ -65,7 +65,7 @@ const Table = ({ data, weeks, RenderComponent }) => {
     ws["!merges"] = merges;
 
     // save workbook
-    XLSX.writeFile(wb, "so.xlsx");
+    XLSX.writeFile(wb, `Rekap Absensi ${schoolYear} - ${classroom}.xlsx`);
   };
 
   return (

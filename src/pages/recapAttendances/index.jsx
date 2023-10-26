@@ -135,8 +135,6 @@ export default function RecapAttendances() {
   const classrooms = getClassrooms();
   const transformedData = transformData(weeks, reduceData);
 
-  console.log(transformedData);
-
   return (
     <div>
       <Banner content={"Rekap Absensi"} />
@@ -167,7 +165,13 @@ export default function RecapAttendances() {
 
       {filterData?.length !== 0 ? (
         <div className="mx-auto bg-body border rounded mb-5">
-          <Table data={transformedData} weeks={weeks} RenderComponent={ListData} />
+          <Table
+            data={transformedData}
+            weeks={weeks}
+            schoolYear={year?.school_year}
+            classroom={classroom}
+            RenderComponent={ListData}
+          />
         </div>
       ) : (
         <p>
