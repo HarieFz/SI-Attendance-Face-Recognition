@@ -5,6 +5,7 @@ import { db } from "../../config/firebase";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
+import Banner from "../../components/Banner";
 
 export default function AddCourse() {
   const [date, setDate] = useState("");
@@ -97,7 +98,7 @@ export default function AddCourse() {
 
   return (
     <>
-      <h4 className="mb-4">Buat Pertemuan</h4>
+      <Banner content={"Buat Pertemuan"} />
       <div className="bg-body rounded border border-2 p-5" style={{ borderStyle: "dashed !important" }}>
         <Row>
           <Col>

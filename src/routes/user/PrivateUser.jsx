@@ -2,6 +2,7 @@ import React from "react";
 import AuthUser from "../../utils/AuthUser";
 import { Navigate, Outlet } from "react-router-dom";
 import Layout from "../../pages/layouts/Layout";
+import Banner from "../../components/Banner";
 
 export default function PrivateUser() {
   if (!AuthUser.isAuthorization()) {
@@ -9,7 +10,7 @@ export default function PrivateUser() {
   }
 
   return (
-    <Layout>
+    <Layout RenderComponent={Banner}>
       <Outlet />
     </Layout>
   );

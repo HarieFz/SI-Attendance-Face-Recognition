@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import ListData from "./components/ListData";
 import Table from "./components/Table";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
+import Banner from "../../components/Banner";
 
 export default function RecapAttendances() {
   // Fetch Data
@@ -136,6 +137,7 @@ export default function RecapAttendances() {
 
   return (
     <div>
+      <Banner content={"Rekap Absensi"} />
       <div className="d-flex gap-3">
         <Form.Group className="mb-4">
           <Form.Label>Tahun Ajaran</Form.Label>

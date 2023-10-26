@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Table } from "react-bootstrap";
 
-export default function ListData({ data, weeks, total }) {
+export default function ListData({ data, weeks }) {
   return (
     <div>
       <Table responsive bordered hover className="mb-0">

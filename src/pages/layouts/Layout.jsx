@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <div>
       <TopBar />
-      <Container className="py-3 px-5">
+      <Container className="px-5">
         <Outlet />
       </Container>
     </div>
