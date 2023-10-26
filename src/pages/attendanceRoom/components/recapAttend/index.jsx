@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export default function RecapAttend({ data, RenderComponent }) {
   // State
-
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log(data);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,8 +15,35 @@ export default function RecapAttend({ data, RenderComponent }) {
       data?.forEach((item) => {
         item?.participants?.forEach((e) => {
           if (e.absent === 1) {
-            console.log(`Sent message to ${e.name}`);
-            setIsLoading(false);
+            fetch("http://localhost:3001/api/messages", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                to: `${e.no_phone}`,
+                body: `Assalamu'alaikum Wr. Wb.
+                      Pemberitahuan siswa dengan nama ${e?.name} tidak 
+                      mengikuti kelas (Alpa) pada tanggal ${item?.date}}.
+                      Terima kasih atas perhatiannya.
+                      Wassalamu'alaikum Wr. Wb.`,
+              }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  Swal.fire("Berhasil!", "Berhasil mengirim SMS ke Orang Tua Siswa!", "success");
+                  setIsLoading(false);
+                } else {
+                  Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
+                  setIsLoading(false);
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+                Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
+                setIsLoading(false);
+              });
           }
         });
       });
