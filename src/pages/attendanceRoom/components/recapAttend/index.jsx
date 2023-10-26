@@ -6,8 +6,6 @@ export default function RecapAttend({ data, RenderComponent }) {
   // State
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(data);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -22,11 +20,7 @@ export default function RecapAttend({ data, RenderComponent }) {
               },
               body: JSON.stringify({
                 to: `${e.no_phone}`,
-                body: `Assalamu'alaikum Wr. Wb.
-                      Pemberitahuan siswa dengan nama ${e?.name} tidak 
-                      mengikuti kelas (Alpa) pada tanggal ${item?.date}}.
-                      Terima kasih atas perhatiannya.
-                      Wassalamu'alaikum Wr. Wb.`,
+                body: `\n Assalamu'alaikum Wr. Wb. \n \n Pemberitahuan siswa dengan nama ${e?.name} \n tidak mengikuti kelas (Alpa) \n pada tanggal ${item?.date}. \n \n Terima kasih atas perhatiannya. \n Wassalamu'alaikum Wr. Wb.`,
               }),
             })
               .then((res) => res.json())
