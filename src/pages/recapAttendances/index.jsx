@@ -99,7 +99,7 @@ export default function RecapAttendances() {
         name: student.name,
         classroom: student.classroom,
         information: [],
-        total: [{ attend: 0, permission: 0, sick: 0, absent: 0 }],
+        total: { attend: 0, permission: 0, sick: 0, absent: 0 },
       };
 
       array1.forEach((week) => {
@@ -117,10 +117,10 @@ export default function RecapAttendances() {
         });
 
         studentInfo.information.push({ ...weekInfo });
-        studentInfo.total[0].attend += weekInfo.attend;
-        studentInfo.total[0].permission += weekInfo.permission;
-        studentInfo.total[0].sick += weekInfo.sick;
-        studentInfo.total[0].absent += weekInfo.absent;
+        studentInfo.total.attend += weekInfo.attend;
+        studentInfo.total.permission += weekInfo.permission;
+        studentInfo.total.sick += weekInfo.sick;
+        studentInfo.total.absent += weekInfo.absent;
       });
 
       output.push(studentInfo);
@@ -134,6 +134,8 @@ export default function RecapAttendances() {
   const reduceData = reduceDatas();
   const classrooms = getClassrooms();
   const transformedData = transformData(weeks, reduceData);
+
+  console.log(transformedData);
 
   return (
     <div>
