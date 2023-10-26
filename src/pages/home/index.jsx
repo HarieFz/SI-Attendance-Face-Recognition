@@ -70,6 +70,48 @@ export default function Home() {
           <p className="m-0">Total Kelas</p>
         </div>
       </div>
+
+      <div className="bg-body border rounded p-5">
+        <p>Selamat Datang</p>
+        <div style={{ textAlign: "justify" }}>
+          Sistem ini adalah sistem akademik untuk melakukan proses absensi di SMA Negeri Cimanggung.
+          <br />
+          Langkah-langkah dalam menggunakan sistem ini sebagai berikut :
+          <ol>
+            <li>
+              Isi Tahun Ajaran pada menu <u>Lainnya</u>
+            </li>
+            <li>
+              Isi Data Siswa pada menu <u>Siswa</u>
+            </li>
+            <li>
+              Buat Pertemuan pada menu <u>Absensi</u> kemudian pilih Tahun Ajaran sekarang, Tanggal hari ini, dan Kelas.
+              Setelah itu klik tombol Lanjutkan
+            </li>
+            <li>
+              Setelah klik tombol Lanjutkan maka akan menuju halaman Absensi dimana ditampilkan rekap absen siswa dengan
+              kelas yang dipilih dan tombol buka webcam
+            </li>
+            <ul>
+              <li>
+                Tombol buka webcam berfungsi untuk mengaktifkan kamera dan melakukan Face Recognition kepada wajah siswa
+                yang telah didaftarkan data-nya, dimana ketika wajah siswa terdeteksi maka akan otomatis memperbarui
+                rekap absen yang ada di samping kiri kamera.
+              </li>
+              <li>
+                Pada rekap absen terdapat tombol sunting yaitu untuk menyunting keterangan kehadiran siswa jika siswa
+                tidak hadir. Juga pada rekap absen terdapat tombol untuk mengirimkan SMS ke Orang Tua Siswa, dimana
+                fungsi dari tombol tersebut untuk mengirim SMS ke Orang Tua ketika Siswa yang bersangkutan Alpa.
+              </li>
+            </ul>
+            <li>
+              Adapun menu Rekap Absensi dalam 1 semester terdapat pada menu <u>Lainnya</u>. Dimana, terdapat filter
+              Tahun Ajaran ke berapa dan Kelas apa yang ingin ditampilkan rekap absensinya. Pada menu Rekap Absensi juga
+              terdapat tombol untuk mengunduh rekap absensi ke dalam bentuk Excel
+            </li>
+          </ol>
+        </div>
+      </div>
     </>
   );
 }

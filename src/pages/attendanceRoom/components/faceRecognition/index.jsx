@@ -84,7 +84,7 @@ export default function FaceRecognition({ data, isLoading }) {
             .withFaceDescriptors());
 
         // Clear previous dots
-        const ctx = canvasRef && canvasRef.current && canvasRef.current.getContext("2d");
+        const ctx = canvasRef && canvasRef.current && canvasRef.current.getContext("2d", { willReadFrequently: true });
         ctx && ctx.clearRect(0, 0, videoWidth, videoHeight);
 
         const resizedDetections = detections && faceapi.resizeResults(detections, displaySize);
