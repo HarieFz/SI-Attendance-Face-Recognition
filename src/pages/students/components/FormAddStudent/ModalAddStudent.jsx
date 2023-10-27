@@ -16,7 +16,7 @@ export default function ModalAddStudent() {
   const [nis, setNis] = useState("");
   const [name, setName] = useState("");
   const [classroom, setClassroom] = useState("");
-  const [noPhone, setNoPhone] = useState(0);
+  const [noPhone, setNoPhone] = useState("");
   const [address, setAddress] = useState("");
 
   // State Modal
@@ -132,7 +132,7 @@ export default function ModalAddStudent() {
         setNis("");
         setName("");
         setClassroom("");
-        setNoPhone(0);
+        setNoPhone("");
         setAddress("");
         setFaceDescriptor([]);
         setDetectionCount(0);
@@ -155,7 +155,7 @@ export default function ModalAddStudent() {
     setNis("");
     setName("");
     setClassroom("");
-    setNoPhone(0);
+    setNoPhone("");
     setAddress("");
     setFaceDescriptor([]);
     setDetectionCount(0);

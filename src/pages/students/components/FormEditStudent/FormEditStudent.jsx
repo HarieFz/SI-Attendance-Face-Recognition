@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Form, InputGroup, Row } from "react-bootstrap";
 import EditUploadPhoto from "./EditUploadPhoto";
 
 export default function FormEditStudent({
@@ -81,10 +81,16 @@ export default function FormEditStudent({
           </Col>
           <Col>
             {/* Form Number Phone Parent*/}
-            <Form.Group className="mb-4">
-              <Form.Label>No Hp Orang Tua</Form.Label>
-              <Form.Control type="text" placeholder="No Hp Orang Tua" value={noPhone} onChange={handleNoPhone} />
-            </Form.Group>
+            <Form.Label>No Hp Orang Tua</Form.Label>
+            <InputGroup className="mb-4">
+              <InputGroup.Text id="basic-addon1">+62</InputGroup.Text>
+              <Form.Control
+                type="text"
+                placeholder="No Hp Orang Tua"
+                value={noPhone.replace("+62", "")}
+                onChange={handleNoPhone}
+              />
+            </InputGroup>
           </Col>
         </Row>
 
