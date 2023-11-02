@@ -104,16 +104,20 @@ export default function FaceRecognition({ data, isLoading }) {
             if (result._label !== "unknown") {
               data?.map(async (item) => {
                 const participant = item?.participants?.find((item) => item.name === result._label);
-                await updateDoc(doc(db, "attendance", item.id), {
-                  participants: arrayRemove(participant),
-                }).then(async () => {
-                  const obj = { ...participant, attend: 1, absent: 0, permission: 0, sick: 0 };
+                if (participant.attend === 0) {
                   await updateDoc(doc(db, "attendance", item.id), {
-                    participants: arrayUnion(obj),
-                  }).catch((err) => {
-                    console.log(err);
-                  });
-                });
+                    participants: arrayRemove(participant),
+                  })
+                    .then(async () => {
+                      const obj = { ...participant, attend: 1, absent: 0, permission: 0, sick: 0 };
+                      await updateDoc(doc(db, "attendance", item.id), {
+                        participants: arrayUnion(obj),
+                      });
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
               });
             }
           });
