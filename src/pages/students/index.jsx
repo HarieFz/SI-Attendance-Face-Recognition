@@ -10,10 +10,15 @@ export default function Students() {
 
   return (
     <>
-      <Banner content={"Siswa"} />
+      <Banner>Siswa</Banner>
       {data.length !== 0 ? (
         <div className="mx-auto bg-body border rounded mb-5">
-          <Table data={data} isLoading={isLoading} RenderComponent={ListData} contentPerPage={10} />
+          <Table
+            data={data}
+            isLoading={isLoading}
+            RenderComponent={ListData}
+            contentPerPage={10}
+          />
         </div>
       ) : (
         ""

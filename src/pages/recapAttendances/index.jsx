@@ -61,7 +61,9 @@ export default function RecapAttendances() {
   const filterData = attendance
     ?.filter((item) => item?.school_year === year?.school_year)
     ?.filter((item) => item?.classroom === classroom)
-    ?.filter((item) => item?.date >= year?.start_date && item.date <= year?.end_date)
+    ?.filter(
+      (item) => item?.date >= year?.start_date && item.date <= year?.end_date
+    )
     ?.map((item) =>
       item?.participants?.map((e) => {
         return { ...e, date: item?.date };
@@ -76,7 +78,12 @@ export default function RecapAttendances() {
     filterData.forEach((o) => {
       if (!current[o.name]) {
         current[o.name] = [];
-        finalArr.push({ nis: o.nis, name: o.name, classroom: o.classroom, information: current[o.name] });
+        finalArr.push({
+          nis: o.nis,
+          name: o.name,
+          classroom: o.classroom,
+          information: current[o.name],
+        });
       }
       current[o.name].push({
         attend: o?.attend,
@@ -103,7 +110,13 @@ export default function RecapAttendances() {
       };
 
       array1.forEach((week) => {
-        const weekInfo = { attend: 0, permission: 0, sick: 0, absent: 0, date: "" };
+        const weekInfo = {
+          attend: 0,
+          permission: 0,
+          sick: 0,
+          absent: 0,
+          date: "",
+        };
 
         week.forEach((date) => {
           const info = student.information.find((item) => item.date === date);
@@ -137,7 +150,7 @@ export default function RecapAttendances() {
 
   return (
     <div>
-      <Banner content={"Rekap Absensi"} />
+      <Banner>Rekap Absensi</Banner>
       <div className="d-flex gap-3">
         <Form.Group className="mb-4">
           <Form.Label>Tahun Ajaran</Form.Label>
@@ -176,7 +189,9 @@ export default function RecapAttendances() {
       ) : (
         <p>
           Tidak ada data yang dapat ditampilkan.{" "}
-          <span className="text-danger">Silahkan pilih terlebih dahulu filter di atas.</span>
+          <span className="text-danger">
+            Silahkan pilih terlebih dahulu filter di atas.
+          </span>
         </p>
       )}
     </div>

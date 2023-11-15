@@ -9,13 +9,13 @@ import Banner from "../../components/Banner";
 
 export default function AddCourse() {
   const [date, setDate] = useState("");
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState([]);
   const [classroom, setClassroom] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const handleYear = (e) => setYear(JSON.parse(e.target.value));
   const handleDate = (e) => setDate(e.target.value);
-  const handleYear = (e) => setYear(e.target.value);
   const handleClassroom = (e) => setClassroom(e.target.value);
 
   const schoolYears = useFetchAllData("school_year");
@@ -24,10 +24,10 @@ export default function AddCourse() {
   const students = useFetchAllData("students");
   const { data: student } = students;
 
-  const attendaces = useFetchAllData("attendance");
-  const { data: attendance } = attendaces;
+  const attendances = useFetchAllData("attendance");
+  const { data: attendance } = attendances;
 
-  const classrooms = () => {
+  const getClassrooms = () => {
     const dataClassrooms = student?.map((item) => {
       return item?.classroom;
     });
@@ -39,7 +39,7 @@ export default function AddCourse() {
     return uniqueClassroom;
   };
 
-  const participants = () => {
+  const getParticipants = () => {
     const students = student?.filter((e) => e?.classroom === classroom);
 
     const participants = [];
@@ -62,35 +62,82 @@ export default function AddCourse() {
     return participants;
   };
 
+  // Get weeks from 1 semester
+  const getWeeks = () => {
+    const start = new Date(year?.start_date);
+    const end = new Date(year?.end_date);
+
+    const DAY = 24 * 60 * 60 * 1000;
+
+    const weeks = [];
+    for (let newStart = start.valueOf(); newStart < end; newStart += DAY * 7) {
+      const days = [];
+      for (let d = newStart; d < newStart + 7 * DAY; d += DAY) {
+        const v = new Date(d).toISOString().slice(0, 10);
+        days.push(v);
+      }
+      weeks.push(days);
+    }
+
+    return weeks;
+  };
+
+  const validateExistAttend = () => {
+    const weeks = getWeeks();
+    const indexOfDate = [];
+    attendance?.map((attend) => {
+      const index = weeks.map((e) => e.findIndex((v) => v === attend.date));
+      const getIndex = index.findIndex((e) => e > -1);
+      return indexOfDate.push(getIndex);
+    });
+
+    const index = weeks.map((e) => e.findIndex((v) => v === date));
+    const getIndex = index.findIndex((e) => e > -1);
+
+    return indexOfDate.includes(getIndex);
+  };
+
+  console.log(validateExistAttend());
+
+  const participants = getParticipants();
+  const classrooms = getClassrooms();
   const filterData = attendance.filter(
-    (item) => item.school_year === year && item.classroom === classroom && item.date === date
+    (item) =>
+      item.school_year === year?.school_year &&
+      item.classroom === classroom &&
+      item.date === date
   );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    if (filterData.length !== 0) return navigate("/attendance", { state: { school_year: year, date, classroom } });
+    if (filterData.length !== 0)
+      return navigate("/attendance", {
+        state: { school_year: year?.school_year, date, classroom },
+      });
     if (filterData.length === 0) {
       await addDoc(collection(db, "attendance"), {
-        school_year: year,
+        school_year: year.school_year,
         date: date,
         classroom: classroom,
-        participants: participants(),
+        participants: participants,
       })
         .then(() => {
           Swal.fire("Berhasil!", "Berhasil membuat pertemuan!", "success");
           setIsLoading(false);
           setDate("");
-          setYear("");
+          setYear([]);
           setClassroom("");
-          navigate("/attendance", { state: { school_year: year, date, classroom } });
+          navigate("/attendance", {
+            state: { school_year: year.school_year, date, classroom },
+          });
         })
         .catch((err) => {
           Swal.fire("Error!", "Telah terjadi sesuatu kesalahan!", "error");
           console.log(err);
           setIsLoading(false);
           setDate("");
-          setYear("");
+          setYear([]);
           setClassroom("");
         });
     }
@@ -98,26 +145,34 @@ export default function AddCourse() {
 
   return (
     <>
-      <Banner content={"Buat Pertemuan"} />
-      <div className="bg-body rounded border border-2 p-5" style={{ borderStyle: "dashed !important" }}>
+      <Banner>Buat Pertemuan</Banner>
+      <div
+        className="bg-body rounded border border-2 p-5"
+        style={{ borderStyle: "dashed !important" }}
+      >
         <Row>
+          <Col>
+            <Form.Group className="mb-4">
+              <Form.Label>Tanggal</Form.Label>
+              <Form.Control
+                type="date"
+                placeholder="Student Address"
+                value={date}
+                onChange={handleDate}
+              />
+            </Form.Group>
+          </Col>
           <Col>
             <Form.Group className="mb-4">
               <Form.Label>Tahun Ajaran</Form.Label>
               <Form.Select onChange={handleYear}>
                 <option>Pilih Tahun Ajaran</option>
                 {schoolYear?.map((item, id) => (
-                  <option key={id} value={item?.school_year}>
+                  <option key={id} value={JSON.stringify(item)}>
                     {item?.school_year}
                   </option>
                 ))}
               </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group className="mb-4">
-              <Form.Label>Tanggal</Form.Label>
-              <Form.Control type="date" placeholder="Student Address" value={date} onChange={handleDate} />
             </Form.Group>
           </Col>
         </Row>
@@ -125,10 +180,10 @@ export default function AddCourse() {
         <Row>
           <Col>
             <Form.Group className="mb-4">
-              <Form.Label>School Year</Form.Label>
+              <Form.Label>Kelas</Form.Label>
               <Form.Select onChange={handleClassroom}>
                 <option>Pilih Kelas</option>
-                {classrooms()?.map((item, id) => (
+                {classrooms?.map((item, id) => (
                   <option key={id} value={item}>
                     {item}
                   </option>
@@ -142,7 +197,13 @@ export default function AddCourse() {
         </Row>
         <Button
           onClick={handleSubmit}
-          disabled={!year || !date || !classroom || participants().length === 0 || isLoading}
+          disabled={
+            !year ||
+            !date ||
+            !classroom ||
+            participants.length === 0 ||
+            isLoading
+          }
         >
           {isLoading ? "Loading..." : "Lanjutkan"}
         </Button>

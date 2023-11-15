@@ -88,7 +88,7 @@ export default function ModalEditAttend({ data, participant }) {
   return (
     <>
       <Button className="btn-success" onClick={() => setShowEdit(true)}>
-        Sunting
+        Ubah
       </Button>
 
       <Modal size="xl" show={showEdit} onHide={() => modalOnHide()}>
@@ -102,11 +102,19 @@ export default function ModalEditAttend({ data, participant }) {
           </Form.Group>
           <Form.Group className="my-4">
             <Form.Label>Nama</Form.Label>
-            <Form.Control type="text" value={participant.name} disabled={true} />
+            <Form.Control
+              type="text"
+              value={participant.name}
+              disabled={true}
+            />
           </Form.Group>
           <Form.Group className="my-4">
             <Form.Label>Kelas</Form.Label>
-            <Form.Control type="text" value={participant.classroom} disabled={true} />
+            <Form.Control
+              type="text"
+              value={participant.classroom}
+              disabled={true}
+            />
           </Form.Group>
           <Form.Select
             onChange={handleInformation}
@@ -131,7 +139,11 @@ export default function ModalEditAttend({ data, participant }) {
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex mx-auto">
-            <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !information}>
+            <Button
+              className="px-5 py-2"
+              onClick={handleSubmit}
+              disabled={isLoading || !information}
+            >
               {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>

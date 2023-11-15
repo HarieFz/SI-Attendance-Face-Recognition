@@ -10,10 +10,15 @@ export default function SchoolYear() {
 
   return (
     <>
-      <Banner content={"Tahun Ajaran"} />
+      <Banner>Tahun Ajaran</Banner>
       {data.length !== 0 ? (
         <div className="mx-auto bg-body border rounded mb-5">
-          <Table data={data} isLoading={isLoading} RenderComponent={ListData} contentPerPage={10} />
+          <Table
+            data={data}
+            isLoading={isLoading}
+            RenderComponent={ListData}
+            contentPerPage={10}
+          />
         </div>
       ) : (
         ""

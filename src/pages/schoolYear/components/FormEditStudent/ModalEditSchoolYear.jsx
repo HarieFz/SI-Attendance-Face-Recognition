@@ -60,7 +60,7 @@ export default function ModalEditSchoolYear({ data }) {
   return (
     <>
       <Button className="btn-success" onClick={() => setShowEdit(true)}>
-        Sunting
+        Ubah
       </Button>
 
       <Modal size="xl" show={showEdit} onHide={modalOnHide}>
@@ -79,7 +79,11 @@ export default function ModalEditSchoolYear({ data }) {
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex mx-auto">
-            <Button className="px-5 py-2" onClick={handleSubmit} disabled={isLoading || !schoolYear}>
+            <Button
+              className="px-5 py-2"
+              onClick={handleSubmit}
+              disabled={isLoading || !schoolYear}
+            >
               {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>

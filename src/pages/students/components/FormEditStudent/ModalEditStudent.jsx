@@ -133,7 +133,9 @@ export default function ModalEditStudent({ data }) {
           no_phone: noPhone,
           address: address,
           photo_URL: isFile(selectedPhoto) ? photoURL : selectedPhoto,
-          faceDescriptor: data?.faceDescriptor ? data?.faceDescriptor : faceDescriptor.toString(),
+          faceDescriptor: data?.faceDescriptor
+            ? data?.faceDescriptor
+            : faceDescriptor.toString(),
         });
         Swal.fire("Berhasil!", "Data berhasil diperbarui!", "success");
         setIsLoading(false);
@@ -196,18 +198,27 @@ export default function ModalEditStudent({ data }) {
         !detectionCount ||
         detectionCount > 1
       );
-    else return isLoading || !selectedPhoto || !nis || !name || !classroom || !noPhone || !address;
+    else
+      return (
+        isLoading ||
+        !selectedPhoto ||
+        !nis ||
+        !name ||
+        !classroom ||
+        !noPhone ||
+        !address
+      );
   };
 
   return (
     <>
       <Button className="btn-success" onClick={() => setShow(true)}>
-        Sunting
+        Ubah
       </Button>
 
       <Modal size="xl" show={show} onHide={modalOnHide}>
         <Modal.Header closeButton>
-          <Modal.Title>Sunting Data Siswa</Modal.Title>
+          <Modal.Title>Ubah Data Siswa</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ zIndex: "0" }}>
           <FormEditStudent
@@ -233,7 +244,11 @@ export default function ModalEditStudent({ data }) {
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex mx-auto">
-            <Button className="px-5 py-2" onClick={handleSubmit} disabled={disabled()}>
+            <Button
+              className="px-5 py-2"
+              onClick={handleSubmit}
+              disabled={disabled()}
+            >
               {isLoading ? `Loading...` : "Simpan"}
             </Button>
           </div>
