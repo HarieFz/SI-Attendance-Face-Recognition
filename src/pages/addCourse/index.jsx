@@ -8,16 +8,7 @@ import useFetchAllData from "../../hooks/query/useFetchAllData";
 import Banner from "../../components/Banner";
 
 export default function AddCourse() {
-  const [date, setDate] = useState("");
-  const [year, setYear] = useState([]);
-  const [classroom, setClassroom] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleYear = (e) => setYear(JSON.parse(e.target.value));
-  const handleDate = (e) => setDate(e.target.value);
-  const handleClassroom = (e) => setClassroom(e.target.value);
-
+  // Fetching Data Firestore
   const schoolYears = useFetchAllData("school_year");
   const { data: schoolYear } = schoolYears;
 
@@ -27,6 +18,28 @@ export default function AddCourse() {
   const attendances = useFetchAllData("attendance");
   const { data: attendance } = attendances;
 
+  // State
+  const [date, setDate] = useState("");
+  const [year, setYear] = useState({});
+  const [classroom, setClassroom] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Handler
+  const handleClassroom = (e) => setClassroom(e.target.value);
+  const handleDate = (e) => {
+    setDate(e.target.value);
+    schoolYear?.map((item) => {
+      if (
+        e.target.value >= item.start_date &&
+        e.target.value <= item.end_date
+      ) {
+        setYear(item);
+      }
+    });
+  };
+
+  // Get Classrooms
   const getClassrooms = () => {
     const dataClassrooms = student?.map((item) => {
       return item?.classroom;
@@ -39,6 +52,7 @@ export default function AddCourse() {
     return uniqueClassroom;
   };
 
+  // Get Participants
   const getParticipants = () => {
     const students = student?.filter((e) => e?.classroom === classroom);
 
@@ -82,25 +96,33 @@ export default function AddCourse() {
     return weeks;
   };
 
-  const validateExistAttend = () => {
+  // Get Meeting Week
+  const getMeetingWeek = () => {
     const weeks = getWeeks();
-    const indexOfDate = [];
-    attendance?.map((attend) => {
-      const index = weeks.map((e) => e.findIndex((v) => v === attend.date));
-      const getIndex = index.findIndex((e) => e > -1);
-      return indexOfDate.push(getIndex);
-    });
-
     const index = weeks.map((e) => e.findIndex((v) => v === date));
-    const getIndex = index.findIndex((e) => e > -1);
+    const getIndex = index?.findIndex((e) => e > -1);
 
-    return indexOfDate.includes(getIndex);
+    return getIndex + 1;
   };
 
-  console.log(validateExistAttend());
+  // Validate if meeting week is exist
+  const validateMeetingWeek = () => {
+    const meetingWeek = getMeetingWeek();
+    const attendByClass = attendance?.filter(
+      (item) => item.classroom === classroom
+    );
+    const existDate = attendByClass.filter(
+      (item) => item.meeting_week === meetingWeek
+    );
 
+    return existDate[0]?.date === date ? null : existDate[0];
+  };
+
+  // Caller Function
   const participants = getParticipants();
   const classrooms = getClassrooms();
+  const meetingWeek = getMeetingWeek();
+  const validatedMeetingWeek = validateMeetingWeek();
   const filterData = attendance.filter(
     (item) =>
       item.school_year === year?.school_year &&
@@ -108,17 +130,19 @@ export default function AddCourse() {
       item.date === date
   );
 
+  // Handler Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     if (filterData.length !== 0)
       return navigate("/attendance", {
-        state: { school_year: year?.school_year, date, classroom },
+        state: { school_year: year?.school_year, date, meetingWeek, classroom },
       });
     if (filterData.length === 0) {
       await addDoc(collection(db, "attendance"), {
         school_year: year.school_year,
         date: date,
+        meeting_week: meetingWeek,
         classroom: classroom,
         participants: participants,
       })
@@ -129,7 +153,12 @@ export default function AddCourse() {
           setYear([]);
           setClassroom("");
           navigate("/attendance", {
-            state: { school_year: year.school_year, date, classroom },
+            state: {
+              school_year: year.school_year,
+              date,
+              meetingWeek,
+              classroom,
+            },
           });
         })
         .catch((err) => {
@@ -153,33 +182,6 @@ export default function AddCourse() {
         <Row>
           <Col>
             <Form.Group className="mb-4">
-              <Form.Label>Tanggal</Form.Label>
-              <Form.Control
-                type="date"
-                placeholder="Student Address"
-                value={date}
-                onChange={handleDate}
-              />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group className="mb-4">
-              <Form.Label>Tahun Ajaran</Form.Label>
-              <Form.Select onChange={handleYear}>
-                <option>Pilih Tahun Ajaran</option>
-                {schoolYear?.map((item, id) => (
-                  <option key={id} value={JSON.stringify(item)}>
-                    {item?.school_year}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col>
-            <Form.Group className="mb-4">
               <Form.Label>Kelas</Form.Label>
               <Form.Select onChange={handleClassroom}>
                 <option>Pilih Kelas</option>
@@ -195,6 +197,39 @@ export default function AddCourse() {
             <></>
           </Col>
         </Row>
+
+        <Row>
+          <Col>
+            <Form.Group className="mb-4">
+              <Form.Label>Tanggal</Form.Label>
+              <Form.Control
+                type="date"
+                placeholder="Student Address"
+                value={date}
+                onChange={handleDate}
+              />
+              {validatedMeetingWeek !== null && validatedMeetingWeek ? (
+                <p className="text-danger" style={{ fontSize: "12px" }}>
+                  Minggu ke-{validatedMeetingWeek?.meeting_week} telah dibuat
+                  pada tanggal {validatedMeetingWeek?.date}
+                </p>
+              ) : (
+                <></>
+              )}
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-4">
+              <Form.Label>Tahun Ajaran</Form.Label>
+              <Form.Control
+                className="bg-light"
+                value={year.school_year ? year.school_year : "-"}
+                disabled
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
         <Button
           onClick={handleSubmit}
           disabled={
@@ -202,6 +237,7 @@ export default function AddCourse() {
             !date ||
             !classroom ||
             participants.length === 0 ||
+            validatedMeetingWeek ||
             isLoading
           }
         >
